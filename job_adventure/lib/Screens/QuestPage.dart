@@ -94,16 +94,41 @@ class ExtractArgumentsScreen extends StatelessWidget {
               itemBuilder: (BuildContext context, int index){
                 if(args.goalStats[index]==false) {
                   return Container(
-                      height: 25,
+                      height: 30,
                       color: Color.fromRGBO(255, 211, 109, 0.4),
-                      child: Center(child: Text('${args.goal[index]}'))
+                      child:  Row(
+                        children: <Widget>[
+                          Container(
+                            height: 30,
+                            width: 250,
+                            child: Center(child: Text('${args.goal[index]}')),
+                          ),
+                          Text(args.xp.toString()),
+                          Icon(Icons.monetization_on)
+                        ],
+                      ) ,
                   );
                 }
                 else{
                   return Container(
                       height: 25,
                       color: Color.fromRGBO(255, 211, 109, 0.4),
-                      child: Center(child: Text('${args.goal[index]}', style: TextStyle(fontWeight: FontWeight.bold)))
+                      child:  Row(
+                        children: <Widget>[
+                          Container(
+                            height: 30,
+                            width: 250,
+                            child: Center(child: Text('${args.goal[index]}', style: TextStyle(fontWeight: FontWeight.bold))),
+                          ),
+                          Text(args.xp.toString()),
+                          Icon(Icons.monetization_on),
+                          Container(
+                            height: 30,
+                            width: 30,
+                            child: Icon(Icons.check_circle_outline)
+                          )
+                        ],
+                      ) ,
                   );
                 }
               }, separatorBuilder: (BuildContext context, int index) => const Divider(),
