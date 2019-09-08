@@ -16,7 +16,7 @@ class QuestPage extends StatefulWidget {
           "Criar uma minuatura",
           "Criar um layout"
         ],
-        goalStats: [false, false, false, false],
+        goalStats: [false, false, true, false],
         goalHours: [4, 4, 4, 4],
         rewardItemId: 5,
         xp: 150
@@ -92,11 +92,20 @@ class ExtractArgumentsScreen extends StatelessWidget {
               padding: EdgeInsets.all(10),
               itemCount: args.goal.length,
               itemBuilder: (BuildContext context, int index){
-                return Container(
-                  height: 25,
-                  color: Color.fromRGBO(255, 211, 109, 0.4),
-                  child: Center(child: Text('${args.goal[index]}'))
-                );
+                if(args.goalStats[index]==false) {
+                  return Container(
+                      height: 25,
+                      color: Color.fromRGBO(255, 211, 109, 0.4),
+                      child: Center(child: Text('${args.goal[index]}'))
+                  );
+                }
+                else{
+                  return Container(
+                      height: 25,
+                      color: Color.fromRGBO(255, 211, 109, 0.4),
+                      child: Center(child: Text('${args.goal[index]}', style: TextStyle(fontWeight: FontWeight.bold)))
+                  );
+                }
               }, separatorBuilder: (BuildContext context, int index) => const Divider(),
             ),
           )
