@@ -15,10 +15,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
   final List<Widget> _widgetOptins = <Widget>[
     MainMenu(),
     QuestPage(),
-    Text(
-        'Index 2: Guild',
-        style: optionStyle
-    ),
+    ComingSoonPage(),
     ComingSoonPage(),
   ];
   void _onItemTapped(int index){
