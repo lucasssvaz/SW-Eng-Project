@@ -4,7 +4,7 @@ class ComingSoonPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        backgroundColor: Colors.deepPurpleAccent,
+        backgroundColor:  Color.fromRGBO(255, 211, 109, 0.4),
         
         body: 
           
@@ -22,7 +22,7 @@ class ComingSoonPage extends StatelessWidget {
                 Text('Coming Soon', textScaleFactor: 3.5, textAlign: TextAlign.center,),
 
                 new Image.asset(
-                  'Images/L_C_S.png',
+                  'assets/images/L_C_S.png',
                   width: 280.0,
                   height: 280.0,
                 ),
