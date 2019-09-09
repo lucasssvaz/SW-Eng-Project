@@ -45,6 +45,13 @@ class _QuestPage extends State<QuestPage>{
     return Scaffold(
       body: Column(
         children: <Widget>[
+          Row(
+            children: <Widget>[
+              Container(
+                height: 20,
+              )
+            ],
+          ),
           Expanded(
             child: ListView.separated(
               padding: EdgeInsets.all(10),

@@ -7,6 +7,11 @@ class MainMenu extends StatelessWidget{
     return Scaffold(
       body: Column(                                //Main column
         children:[
+          Row(
+            children: <Widget>[Container(
+              height: 20,
+            )],
+          ),
           Padding(                                 //Padding for the top bar
             padding: EdgeInsets.all(10),
             child: Container(                      //Container to crate the borders of the top bar
