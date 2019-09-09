@@ -106,7 +106,7 @@ class ExtractArgumentsScreen extends StatelessWidget {
                             child: Center(child: Text('${args.goal[index]}')),
                           ),
                           Text(args.goalXp[index].toString()),
-                          Icon(Icons.monetization_on)
+                          Icon(Icons.monetization_on, color: Colors.teal)
                         ],
                       ) ,
                   );
@@ -123,7 +123,7 @@ class ExtractArgumentsScreen extends StatelessWidget {
                             child: Center(child: Text('${args.goal[index]}', style: TextStyle(fontWeight: FontWeight.bold))),
                           ),
                           Text(args.goalXp[index].toString()),
-                          Icon(Icons.monetization_on),
+                          Icon(Icons.monetization_on, color: Colors.cyanAccent,),
                           Container(
                             height: 30,
                             width: 30,
