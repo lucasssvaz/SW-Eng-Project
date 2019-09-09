@@ -18,6 +18,7 @@ class QuestPage extends StatefulWidget {
         ],
         goalStats: [false, false, true, false],
         goalHours: [4, 4, 4, 4],
+        goalXp: [95,100,5,10],
         rewardItemId: 5,
         xp: 150
     ));
@@ -28,8 +29,9 @@ class QuestPage extends StatefulWidget {
         goal: ["Testando"],
         goalStats: [true],
         goalHours: [1],
+        goalXp: [0],
         rewardItemId: -1,
-        xp: 0
+        xp: 10
     ));
   }
 
@@ -72,7 +74,7 @@ class _QuestPage extends State<QuestPage>{
 }
 
 class ExtractArgumentsScreen extends StatelessWidget {
-  static const routeName = 'extractArguments';
+  static const routeName = 'extractArgumentsQuest';
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +105,7 @@ class ExtractArgumentsScreen extends StatelessWidget {
                             width: 250,
                             child: Center(child: Text('${args.goal[index]}')),
                           ),
-                          Text(args.xp.toString()),
+                          Text(args.goalXp[index].toString()),
                           Icon(Icons.monetization_on)
                         ],
                       ) ,
@@ -120,7 +122,7 @@ class ExtractArgumentsScreen extends StatelessWidget {
                             width: 250,
                             child: Center(child: Text('${args.goal[index]}', style: TextStyle(fontWeight: FontWeight.bold))),
                           ),
-                          Text(args.xp.toString()),
+                          Text(args.goalXp[index].toString()),
                           Icon(Icons.monetization_on),
                           Container(
                             height: 30,
