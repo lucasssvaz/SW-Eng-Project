@@ -10,6 +10,6 @@ void main() => runApp(MaterialApp(
   routes:{
     'loginScreen': (context) => LoginScreen(),
     'MainMenu': (context) => NavigationMenu(),
-    ExtractArgumentsScreen.routeName: (contex) => new ExtractArgumentsScreen(),
+    ExtractArgumentsQuest.routeName: (contex) => new ExtractArgumentsQuest(),
   }
 ));

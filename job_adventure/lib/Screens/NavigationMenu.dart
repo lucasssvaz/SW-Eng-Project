@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:job_adventure/Screens/MainMenu.dart';
 import 'package:job_adventure/Screens/QuestPage.dart';
+import 'package:job_adventure/Screens/ProfileScreen.dart';
 
 class NavigationMenu extends StatefulWidget {
   NavigationMenu({Key key}) : super(key: key);
@@ -14,10 +15,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
   final List<Widget> _widgetOptins = <Widget>[
     MainMenu(),
     QuestPage(),
-    Text(
-        'Index 2: Guild',
-        style: optionStyle
-    ),
+    ProfileScreen(),
     Text(
         'Index 3: Settings',
         style: optionStyle
@@ -48,7 +46,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.group),
-            title: Text('Guild'),
+            title: Text('Profile'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
