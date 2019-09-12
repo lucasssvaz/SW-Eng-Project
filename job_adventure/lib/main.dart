@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:job_adventure/Screens/NavigationMenu.dart';
 import 'package:job_adventure/Screens/LoginScreen.dart';
 import 'package:job_adventure/Screens/QuestPage.dart';
+import 'package:job_adventure/Screens/TrelloLoginScreen.dart';
 
 void main() => runApp(MaterialApp(
   title: 'Job Adventure',
@@ -10,6 +11,7 @@ void main() => runApp(MaterialApp(
   routes:{
     'loginScreen': (context) => LoginScreen(),
     'MainMenu': (context) => NavigationMenu(),
+    '/webview': (context) => TrelloLoginScreen(),
     ExtractArgumentsScreen.routeName: (contex) => new ExtractArgumentsScreen(),
   }
 ));
