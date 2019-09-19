@@ -32,7 +32,7 @@ class LoginScreen extends StatelessWidget {
           Padding( // Login button
             padding: EdgeInsets.only(top: 30, left: 100, right: 100),
             child: RaisedButton(
-              onPressed: () {Navigator.pushNamed(context, 'MainMenu');}, // Goes to the main menu when pressed, change when implementing the DB
+              onPressed: () {Navigator.pushNamed(context, '/webview');}, // Goes to the main menu when pressed, change when implementing the DB
               color: Color.fromRGBO(255, 211, 109, 0.4),
               child: Text('Login',style: TextStyle(fontSize: 20)),
             )
