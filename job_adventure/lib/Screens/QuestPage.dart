@@ -61,7 +61,7 @@ class _QuestPage extends State<QuestPage>{
                   onTap: (){
                     Navigator.pushNamed(
                       context,
-                      ExtractArgumentsQuest.routeName,
+                      ExtractArgumentsScreen.routeName,
                       arguments: widget.quests[index]
                     );
                   },
@@ -80,7 +80,7 @@ class _QuestPage extends State<QuestPage>{
   }
 }
 
-class ExtractArgumentsQuest extends StatelessWidget {
+class ExtractArgumentsScreen extends StatelessWidget {
   static const routeName = 'extractArgumentsQuest';
 
   @override
@@ -130,7 +130,12 @@ class ExtractArgumentsQuest extends StatelessWidget {
                             child: Center(child: Text('${args.goal[index]}', style: TextStyle(fontWeight: FontWeight.bold))),
                           ),
                           Text(args.goalXp[index].toString()),
-                          Icon(Icons.monetization_on, color: Colors.cyanAccent)
+                          Icon(Icons.monetization_on, color: Colors.cyanAccent,),
+                          Container(
+                            height: 30,
+                            width: 30,
+                            child: Icon(Icons.check_circle_outline)
+                          )
                         ],
                       ) ,
                   );
