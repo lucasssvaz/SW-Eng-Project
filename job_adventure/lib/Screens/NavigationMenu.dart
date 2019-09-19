@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:job_adventure/Screens/MainMenu.dart';
+import 'package:job_adventure/Screens/QuestPage.dart';
+import 'package:job_adventure/Screens/comingsoonpage.dart';
+import 'package:job_adventure/Screens/ProfileScreen.dart';
 
 class NavigationMenu extends StatefulWidget {
 
@@ -15,18 +18,9 @@ class _NavigationMenuState extends State<NavigationMenu> {
   static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   final List<Widget> _widgetOptins = <Widget>[
     MainMenu(),
-    Text(
-        'Index 1: Quest',
-        style: optionStyle
-    ),
-    Text(
-        'Index 2: Guild',
-        style: optionStyle
-    ),
-    Text(
-        'Index 3: Settings',
-        style: optionStyle
-    )
+    QuestPage(),
+    ProfileScreen(),
+    ComingSoonPage()
   ];
   void _onItemTapped(int index){
     setState(() {
