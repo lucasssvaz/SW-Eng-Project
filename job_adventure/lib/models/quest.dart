@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Quest {
-  int id;
+  String id;
   String name;
   List<String> goal;
   List<bool> goalStats;
@@ -42,5 +42,9 @@ class Quest {
     data['reward_item_id'] = this.rewardItemId;
     data['xp'] = this.xp;
     return data;
+  }
+
+  save(){
+    Firestore.instance.collection('Quests').document(this.id).setData(toJson());
   }
 }

@@ -46,7 +46,7 @@ class TrelloLoginScreenState extends State<TrelloLoginScreen>{
         timer.cancel();
         Navigator.pushNamed(
           context,
-          'NavigationMenu',
+          'MainMenu',
           arguments: _trelloKey
         );
       }

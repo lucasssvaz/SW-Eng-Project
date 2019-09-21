@@ -8,7 +8,7 @@ class QuestPage extends StatefulWidget {
   QuestPage() {
     quests = [];
     quests.add(Quest(
-        id: 1,
+        id: "1",
         name: "Criar um tema",
         goal: [
           "Escolher um estilo de fontes",
@@ -24,7 +24,7 @@ class QuestPage extends StatefulWidget {
     ));
 
     quests.add(Quest(
-        id: 2,
+        id: "2",
         name: "Teste",
         goal: ["Testando"],
         goalStats: [true],
