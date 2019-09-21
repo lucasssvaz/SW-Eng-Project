@@ -1,47 +1,47 @@
 {
-    "project_info": {
-      "project_number": "199705163119",
-      "firebase_url": "https://genuine-amulet-252115.firebaseio.com",
-      "project_id": "genuine-amulet-252115",
-      "storage_bucket": "genuine-amulet-252115.appspot.com"
-    },
-    "client": [
-      {
-        "client_info": {
-          "mobilesdk_app_id": "1:199705163119:android:c99ab683d15cbed13aa49a",
-          "android_client_info": {
-            "package_name": "com.example.job_adventure"
-          }
-        },
-        "oauth_client": [
-          {
-            "client_id": "199705163119-trpbvnqqh3g55nkg6m5a63ah7mlg02t6.apps.googleusercontent.com",
-            "client_type": 3
-          }
-        ],
-        "api_key": [
-          {
-            "current_key": "AIzaSyDW4Mf0Si8dmhkkHmxJaSpnt0kL79d6khE"
-          }
-        ],
-        "services": {
-          "appinvite_service": {
-            "other_platform_oauth_client": [
-              {
-                "client_id": "199705163119-trpbvnqqh3g55nkg6m5a63ah7mlg02t6.apps.googleusercontent.com",
-                "client_type": 3
-              },
-              {
-                "client_id": "199705163119-snr93gv2mbro8f7bstmnghlp2k77c32f.apps.googleusercontent.com",
-                "client_type": 2,
-                "ios_info": {
-                  "bundle_id": "com.example.jobAdventure"
-                }
+  "project_info": {
+    "project_number": "199705163119",
+    "firebase_url": "https://genuine-amulet-252115.firebaseio.com",
+    "project_id": "genuine-amulet-252115",
+    "storage_bucket": "genuine-amulet-252115.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:199705163119:android:c99ab683d15cbed13aa49a",
+        "android_client_info": {
+          "package_name": "com.example.job_adventure"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "199705163119-trpbvnqqh3g55nkg6m5a63ah7mlg02t6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDW4Mf0Si8dmhkkHmxJaSpnt0kL79d6khE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "199705163119-trpbvnqqh3g55nkg6m5a63ah7mlg02t6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "199705163119-snr93gv2mbro8f7bstmnghlp2k77c32f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.jobAdventure"
               }
-            ]
-          }
+            }
+          ]
         }
       }
-    ],
-    "configuration_version": "1"
-  }
+    }
+  ],
+  "configuration_version": "1"
+}

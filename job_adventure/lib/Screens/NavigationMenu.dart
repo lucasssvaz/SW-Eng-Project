@@ -30,7 +30,6 @@ class _NavigationMenuState extends State<NavigationMenu> {
 
   @override
   Widget build(BuildContext context) {
-
     return new WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(

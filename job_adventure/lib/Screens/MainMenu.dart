@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:job_adventure/models/user.dart';
 
 class MainMenu extends StatelessWidget{
   @override
   final List<String> taskSamples = <String>["This is a task","This is another task","This is another task"];
   Widget build(BuildContext context){
+    final String _trelloKey = ModalRoute.of(context).settings.arguments;
+    initialRouteUser(_trelloKey);
     return Scaffold(
       body: Column(                                //Main column
         children:[
