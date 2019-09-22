@@ -6,20 +6,26 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      appBar: AppBar(
+        title: Text("Profile"),
+        backgroundColor: Color.fromRGBO(255, 211, 109, 0.4),
+      ),
       body:
       new Column(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            
+            //This row sets the space betwin the profile screen and the appbar
             new Row(
-              children: <Widget>[Container(
-                height: 45,
+              children: <Widget>[
+                Container(
+                  height: 20,
               )],
             ),
-            new Container(/*mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center, */
+
+            new Container(
               decoration: BoxDecoration(
                 border: Border.all(
                     color: Color.fromRGBO(255, 211, 109, 0.4),
@@ -33,6 +39,15 @@ class ProfileScreen extends StatelessWidget {
 
             ),
 
+            //This row sets the space betwin the profile screen and the user name text
+            new Row(
+              children: <Widget>[
+                Container(
+                  height: 10
+                )
+              ],
+            ),
+            
             new Text(
                 "User_ID - Guild",
                 style: new TextStyle(fontSize: 18.0,
