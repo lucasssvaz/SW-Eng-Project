@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:job_adventure/Screens/NavigationMenu.dart';
 import 'package:job_adventure/Screens/LoginScreen.dart';
+import 'package:job_adventure/Screens/ProfileScreen.dart';
 import 'package:job_adventure/Screens/QuestPage.dart';
 import 'package:job_adventure/Screens/TrelloLoginScreen.dart';
 
@@ -12,6 +13,7 @@ void main() => runApp(MaterialApp(
     'loginScreen': (context) => LoginScreen(),
     'NavigationMenu': (context) => NavigationMenu(),
     '/webview': (context) => TrelloLoginScreen(),
+    'profilescreen': (context) => ProfileScreen(),
     ExtractArgumentsScreen.routeName: (contex) => new ExtractArgumentsScreen(),
   }
 ));
