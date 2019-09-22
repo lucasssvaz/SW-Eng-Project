@@ -10,7 +10,7 @@ void main() => runApp(MaterialApp(
   debugShowCheckedModeBanner: false,
   routes:{
     'loginScreen': (context) => LoginScreen(),
-    'MainMenu': (context) => NavigationMenu(),
+    'NavigationMenu': (context) => NavigationMenu(),
     '/webview': (context) => TrelloLoginScreen(),
     ExtractArgumentsScreen.routeName: (contex) => new ExtractArgumentsScreen(),
   }

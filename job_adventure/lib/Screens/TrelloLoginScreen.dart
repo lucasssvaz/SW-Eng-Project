@@ -48,7 +48,7 @@ class TrelloLoginScreenState extends State<TrelloLoginScreen>{
 
         Navigator.pushNamed(
           context,
-          'MainMenu',
+          'NavigationMenu',
           arguments: _trelloKey
         );
       }

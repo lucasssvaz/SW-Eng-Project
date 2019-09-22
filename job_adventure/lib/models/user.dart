@@ -1,10 +1,14 @@
 import 'package:http/http.dart';
 import 'package:html/parser.dart';
 import 'dart:convert';
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
+import 'package:shared_preferences/shared_preferences.dart';
 
 const String APIKey = "57a893b02ea2046b82ac861766a34bed";
 
+//to extract informations of trelloUser account
 class TrelloUserInformations{
   String username;
   String fullName;
@@ -46,9 +50,13 @@ initialRouteUser(String trelloKey) async{
     teamName: null
   );
   print(ouruser.name);
+  //String test = await ouruser.save();
+  //print('Cast test 2: '+test);
   ouruser.save();
 }
+//
 
+//User class -- interface of iteration in Firebase Cloud collection: Users
 class User{
   String userName;
   int level;
@@ -77,25 +85,27 @@ class User{
   this.isAdventure,
   this.adminName,
   this.teamName});
-  /*User(String trelloKey) async {
-    String url = "https://api.trello.com/1/members/me/?key="+APIKey+"&token="+trelloKey;
-    //final req = new Request("GET", Uri.parse(url));
-    var test = fetchPost(url);
-    var test2 = await test;
-    TrelloUserInformations trellouser = test2;
-      this.level = 0;
-      this.userKey = trelloKey;
-      this.isAdmin = false;
-      this.isGuildMaster = false;
-      this.isAdventure = true;
-      this.guildName = null;
-      this.isAdventure = true;
-      this.adminName = null;
-      this.teamName = null;
-    //databaseReference.child(this.userName).set(toJson());
-  }*/
-  save(){
+  save() async{
     Firestore.instance.collection('Users').document(this.userName).setData(toJson());
+    _save();
+    //String test = await _read();
+    //print('Cast test 1: '+test);
+    return _read();
+  }
+  _read() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'username';
+    final value = prefs.getString(key) ?? 0;
+    return value;
+    //print('read: '+value);
+  }
+
+  _save() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'username';
+    final value = this.userName;
+    prefs.setString(key, value);
+    //print('saved '+value);
   }
   User.fromJson(Map<String, dynamic> json) {
     level = json['level'];

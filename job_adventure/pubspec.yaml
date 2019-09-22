@@ -25,10 +25,10 @@ dependencies:
   cupertino_icons: ^0.1.2
   webview_flutter: ^0.3.14
   cloud_firestore:
-  #firebase_storage: ^3.0.6
   curl: ^1.0.0
   http: ^0.12.0+2
   html: ^0.14.0+2
+  shared_preferences: ^0.5.3+4
 
 dev_dependencies:
   flutter_test:
