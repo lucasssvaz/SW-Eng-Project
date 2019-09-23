@@ -10,6 +10,10 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+
+  //Id to acess the user document on firebase
+  int user_id = 1;
+
   final List<String> taskSamples = <String>[
     "First task",
     "Second task",
@@ -53,21 +57,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
               new StreamBuilder(
                   stream: Firestore.instance.collection('Users').snapshots(),
                   builder: (context, snapshot) {
-                    if (!snapshot.hasData) return Text('Loading...');
+                    if (!snapshot.hasData) return Text('Loading Data...');
                     return new Column(children: <Widget>[
-                      Text(snapshot.data.documents[1]['name'],
+                      Text(snapshot.data.documents[user_id]['name'],
                           style: new TextStyle(
                               fontSize: 18.0,
                               color: const Color(0xFF000000),
                               fontWeight: FontWeight.w400,
                               fontFamily: "Georgia")),
-                      Text(snapshot.data.documents[1]['level'].toString(),
+                      Text('Level: ' + snapshot.data.documents[user_id]['level'].toString(),
                           style: new TextStyle(
                               fontSize: 17.0,
                               color: const Color(0xFF000000),
                               fontWeight: FontWeight.w200,
                               fontFamily: "Roboto")),
-                      Text(snapshot.data.documents[1]['xp'].toString(),
+                      Text('Xp: ' + snapshot.data.documents[user_id]['xp'].toString(),
                           style: new TextStyle(
                               fontSize: 15.0,
                               color: const Color(0xFF000000),

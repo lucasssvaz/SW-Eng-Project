@@ -54,7 +54,6 @@ initialRouteUser(String trelloKey) async{
   //print('Cast test 2: '+test);
   ouruser.save();
 }
-//
 
 //User class -- interface of iteration in Firebase Cloud collection: Users
 class User{

@@ -67,7 +67,6 @@ class MainMenu extends StatelessWidget {
     return value;
   }
 
-  @override
   final List<String> taskSamples = <String>[
     "This is a task",
     "This is another task",
