@@ -1,10 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'package:html/parser.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
-import 'package:shared_preferences/shared_preferences.dart';
 
 const String APIKey = "57a893b02ea2046b82ac861766a34bed";
 
@@ -50,11 +50,8 @@ initialRouteUser(String trelloKey) async{
     teamName: null
   );
   print(ouruser.name);
-  //String test = await ouruser.save();
-  //print('Cast test 2: '+test);
   ouruser.save();
 }
-//
 
 //User class -- interface of iteration in Firebase Cloud collection: Users
 class User{
@@ -86,26 +83,12 @@ class User{
   this.adminName,
   this.teamName});
   save() async{
-    Firestore.instance.collection('Users').document(this.userName).setData(toJson());
-    _save();
-    //String test = await _read();
-    //print('Cast test 1: '+test);
-    return _read();
-  }
-  _read() async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'username';
-    final value = prefs.getString(key) ?? 0;
-    return value;
-    //print('read: '+value);
-  }
-
-  _save() async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'username';
-    final value = this.userName;
-    prefs.setString(key, value);
-    //print('saved '+value);
+    var usersRef = Firestore.instance.collection('Users').document(this.userName);
+    var doc = await usersRef.get();
+    if(doc.exists==false) {
+      Firestore.instance.collection('Users').document(this.userName).setData(
+          toJson());
+    }
   }
   User.fromJson(Map<String, dynamic> json) {
     level = json['level'];

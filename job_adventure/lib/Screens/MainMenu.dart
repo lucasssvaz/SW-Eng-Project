@@ -1,23 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:job_adventure/models/user.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class MainMenu extends StatelessWidget{
   String username;
-  GetUserName(String trelloKey) async{
-    initialRouteUser(trelloKey);
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'username';
-    String value = prefs.getString(key) ?? 0;
-    print('Saved user name '+value);
-    return value;
-  }
   @override
   final List<String> taskSamples = <String>["This is a task","This is another task","This is another task"];
   Widget build(BuildContext context){
     final String _trelloKey = ModalRoute.of(context).settings.arguments;
     initialRouteUser(_trelloKey);
-    //print('Main acess username: '+this.username);
     return Scaffold(
       body: Column(                                //Main column
         children:[
