@@ -43,7 +43,7 @@ class _QuestPage extends State<QuestPage>{
   @override
   Widget build(BuildContext context) {
     final String username = ModalRoute.of(context).settings.arguments;
-    print('QuestPage username: '+username);
+    //print('QuestPage username: '+username);
     return Scaffold(
       body: Column(
         children: <Widget>[

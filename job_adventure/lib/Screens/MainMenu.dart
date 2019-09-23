@@ -61,12 +61,9 @@ class MainMenu extends StatelessWidget {
     "This is another task",
     "This is another task"
   ];
-  /*Future<void> _getUserName() async{
-    username = await storage.read(key: "username");
-  }*/
   Widget build(BuildContext context) {
     final String username = ModalRoute.of(context).settings.arguments;
-    print('MainMenu username: '+username);
+    //print('MainMenu username: '+username);
     return Scaffold(
         body: Column(//Main column
             children: [
