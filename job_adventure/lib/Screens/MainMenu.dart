@@ -56,15 +56,17 @@ class InfoWidget extends StatelessWidget {
 }
 
 class MainMenu extends StatelessWidget {
-  String username;
   final List<String> taskSamples = <String>[
     "This is a task",
     "This is another task",
     "This is another task"
   ];
+  /*Future<void> _getUserName() async{
+    username = await storage.read(key: "username");
+  }*/
   Widget build(BuildContext context) {
-    final String _trelloKey = ModalRoute.of(context).settings.arguments;
-    initialRouteUser(_trelloKey);
+    final String username = ModalRoute.of(context).settings.arguments;
+    print('MainMenu username: '+username);
     return Scaffold(
         body: Column(//Main column
             children: [

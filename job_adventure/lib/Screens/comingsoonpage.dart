@@ -7,6 +7,8 @@ var value = random.nextInt(10);
 class ComingSoonPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final String username = ModalRoute.of(context).settings.arguments;
+    print('CommingSoon username: '+username);
     return new Scaffold(
 
         backgroundColor:  Color.fromRGBO(255, 211, 109, 0.4),

@@ -10,7 +10,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
+  String username;
   //Id to acess the user document on firebase
   int user_id = 1;
 
@@ -21,6 +21,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    username = ModalRoute.of(context).settings.arguments;
+    print('ProfileScreen username: '+username);
     return new Scaffold(
         appBar: AppBar(
           title: Text("Profile"),

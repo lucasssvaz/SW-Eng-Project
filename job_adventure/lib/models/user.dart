@@ -54,7 +54,7 @@ initialRouteUser(String trelloKey) async{
     teamName: null
   );
   print(ouruser.name);
-  await storage.write(key: "username", value: ouruser.name);
+  await storage.write(key: "username", value: ouruser.userName);
   //String test = await ouruser.save();
   //print('Cast test 2: '+test);
   ouruser.save();

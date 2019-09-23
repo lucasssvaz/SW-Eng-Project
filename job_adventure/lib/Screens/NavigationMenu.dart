@@ -30,6 +30,8 @@ class _NavigationMenuState extends State<NavigationMenu> {
 
   @override
   Widget build(BuildContext context) {
+    final String username = ModalRoute.of(context).settings.arguments;
+    print('NavigationMenu username: '+username);
     return new WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
