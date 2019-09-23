@@ -5,8 +5,12 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 const String APIKey = "57a893b02ea2046b82ac861766a34bed";
+
+final storage = new FlutterSecureStorage();
 
 //to extract informations of trelloUser account
 class TrelloUserInformations{
@@ -50,6 +54,9 @@ initialRouteUser(String trelloKey) async{
     teamName: null
   );
   print(ouruser.name);
+  await storage.write(key: "username", value: ouruser.name);
+  //String test = await ouruser.save();
+  //print('Cast test 2: '+test);
   ouruser.save();
 }
 

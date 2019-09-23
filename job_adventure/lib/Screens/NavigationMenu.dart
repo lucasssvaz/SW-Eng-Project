@@ -18,7 +18,8 @@ class _NavigationMenuState extends State<NavigationMenu> {
   final List<Widget> _widgetOptins = <Widget>[
     MainMenu(),
     QuestPage(),
-    ProfileScreen(),
+    //ProfileScreen(),
+    ComingSoonPage(),
     ComingSoonPage()
   ];
   void _onItemTapped(int index){
