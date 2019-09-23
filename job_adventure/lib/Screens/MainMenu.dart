@@ -57,15 +57,6 @@ class InfoWidget extends StatelessWidget {
 
 class MainMenu extends StatelessWidget {
   String username;
-  GetUserName(String trelloKey) async {
-    initialRouteUser(trelloKey);
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'username';
-    String value = prefs.getString(key) ?? 0;
-    print('Saved user name ' + value);
-    return value;
-  }
-
   final List<String> taskSamples = <String>[
     "This is a task",
     "This is another task",
