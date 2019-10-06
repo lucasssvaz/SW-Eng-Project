@@ -14,6 +14,6 @@ void main() => runApp(MaterialApp(
     'NavigationMenu': (context) => NavigationMenu(),
     '/webview': (context) => TrelloLoginScreen(),
     'profilescreen': (context) => ProfileScreen(),
-    ExtractArgumentsScreen.routeName: (contex) => new ExtractArgumentsScreen(),
+    ExtractArgumentsScreen.routeName: (context) => new ExtractArgumentsScreen(),
   }
 ));

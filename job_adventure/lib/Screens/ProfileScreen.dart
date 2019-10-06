@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:job_adventure/models/user.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -20,7 +21,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    final String username = ModalRoute.of(context).settings.arguments;
+    final User user = ModalRoute.of(context).settings.arguments;
     return new Scaffold(
         appBar: AppBar(
           title: Text("Profile"),

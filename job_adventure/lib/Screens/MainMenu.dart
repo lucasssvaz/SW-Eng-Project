@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:job_adventure/models/user.dart';
+import 'package:job_adventure/models/quest.dart';
 
 //This class is responsable for making the topbar (infowdget)
 //interractable
 class IntereactableWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final User user = ModalRoute.of(context).settings.arguments;
     return new GestureDetector(
       child: new InfoWidget(),
       onTap: () {
@@ -62,8 +64,7 @@ class MainMenu extends StatelessWidget {
     "This is another task"
   ];
   Widget build(BuildContext context) {
-    final String username = ModalRoute.of(context).settings.arguments;
-    //print('MainMenu username: '+username);
+    final User user = ModalRoute.of(context).settings.arguments;
     return Scaffold(
         body: Column(//Main column
             children: [
