@@ -44,11 +44,7 @@ class TrelloLoginScreenState extends State<TrelloLoginScreen>{
       onMessageReceived: (JavascriptMessage message){
         String _trelloKey = message.message; // Trello key is being held here, do the DB operations inside this function
         timer.cancel();
-        Navigator.pushNamed(
-          context,
-          'MainMenu',
-          arguments: _trelloKey
-        );
+        //Object 'user' with all User informations
       }
     );
   }
