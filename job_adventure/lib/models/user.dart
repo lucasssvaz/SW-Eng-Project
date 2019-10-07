@@ -5,63 +5,39 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:job_adventure/models/quest.dart';
 
 const String APIKey = "57a893b02ea2046b82ac861766a34bed";
 
 final storage = new FlutterSecureStorage();
 
 //to extract informations of trelloUser account
-class TrelloUserInformations{
-  String username;
-  String fullName;
-  String avatarUrl;
-  String email;
-  TrelloUserInformations({this.username, this.fullName, this.avatarUrl, this.email});
-}
 
-Future<TrelloUserInformations> fetchPost(String url) async{
-  final response = await get(url);
-  var document = parse(response.body);
-  var body = response.body;
-  var jsonresponse = json.decode(body);
-  //print(jsonresponse['username']);
-  return await TrelloUserInformations(
-    username: jsonresponse['username'],
-    fullName: jsonresponse['fullName'],
-    avatarUrl: jsonresponse['avatarUrl'],
-    email: jsonresponse['email']
-  );
-}
-
-initialRouteUser(String trelloKey) async{
-  final trellopost = await fetchPost("https://api.trello.com/1/members/me/?key="+APIKey+"&token="+trelloKey);
-  TrelloUserInformations trellouser = await trellopost;
-  User ouruser = User(
-    userName: trellouser.username,
+Future<User> initialRoute(String trelloKey) async{
+  final response = await get("https://api.trello.com/1/members/me/?key="+APIKey+"&token="+trelloKey);
+  var jsonresponse = json.decode(response.body);
+  return User(
+    userName: jsonresponse['username'],
     level: 0,
     xp: 0,
-    name: trellouser.fullName,
-    avatarUrl: trellouser.avatarUrl,
-    email: trellouser.email,
+    name: jsonresponse['fullName'],
+    avatarUrl: jsonresponse['avatarUrl'],
+    email: jsonresponse['email'],
     userKey: trelloKey,
     isAdmin: false,
     isGuildMaster: false,
     guildName: null,
     isAdventure: true,
     adminName: null,
-    teamName: null
+    teamName: null,
+    questID: null
   );
-  print(ouruser.name);
-  await storage.write(key: "username", value: ouruser.name);
-  //String test = await ouruser.save();
-  //print('Cast test 2: '+test);
-  ouruser.save();
 }
 
 //User class -- interface of iteration in Firebase Cloud collection: Users
 class User{
+  Timer _timer;
   String userName;
   int level;
   int xp;
@@ -75,6 +51,7 @@ class User{
   bool isAdventure;
   String adminName;
   String teamName;
+  List<String> questID;
 
   User({this.userName,
   this.level,
@@ -88,15 +65,126 @@ class User{
   this.guildName,
   this.isAdventure,
   this.adminName,
-  this.teamName});
+  this.teamName,
+  this.questID}){
+    if(questID==null)
+      this.questID = new List<String>();
+    var userGet = Firestore.instance.collection('Users').document(this.userName).get();
+    userGet.then((DocumentSnapshot doc) {
+      if(doc.exists==false){
+        save();
+      }
+      else{
+        //Get data of the user and reload the User object
+        var jsonfirestore = doc.data;
+        fromJson(jsonfirestore);
+      }
+      this._timer = Timer.periodic(Duration(milliseconds: 60000),(Timer t) => _reload());//1 min to reload object values from firestore
+    });
+  }
+
+  addXp(int amount){
+    var userXp = Firestore.instance.collection('Level').document('xp').get();
+    userXp.then((DocumentSnapshot doc){
+      var jsonfirestore = doc.data;
+      int qLevelXp = jsonfirestore[this.level.toString()];
+      this.xp = this.xp + amount;
+      if(qLevelXp!=null){
+        while(this.xp>qLevelXp){
+          this.xp = this.xp - qLevelXp;
+          this.level ++;
+        }
+      }
+    });
+    save();
+  }
+
+  Future<List<Quest>> getQuests() async{
+    int i=0;
+    List<Quest> list = new List<Quest>();
+    while(i<questID.length){
+      var questdoc = Firestore.instance.collection('Quest').document(this.questID[i]).get();
+      list.add(Quest.fromJson((await questdoc).data));
+      i++;
+    }
+    return list;
+  }
+
+  addQuest(String questId){
+    int i;
+    bool add=true;
+    for(i=0;i<this.questID.length&&add==true;i++){
+      if(this.questID[i]==questId)
+        add=false;
+    }
+    if(this.questID==null)
+      this.questID = new List<String>();
+    if(add==true) {
+      this.questID.add(questId);
+      save();
+    }
+  }
+
+  chanceAvatarUrl(int i){//Vet indice image in our list
+  }
+
+  setAdmin(String userName){
+    if(this.isAdmin==true) {
+      var userGet = Firestore.instance.collection('Users')
+          .document(userName)
+          .get();
+      userGet.then((DocumentSnapshot doc) {
+        User objUser = User.fromJson(doc.data);
+        objUser.isAdmin = true;
+        objUser.isAdventure = false;
+        objUser.isGuildMaster = false;
+        objUser.guildName = null;
+        objUser.questID = null;
+        objUser.adminName = this.name;
+        objUser.save();
+      });
+    }
+  }
+
+  setGuild(String userName, String guildName){
+    if(this.isAdmin==true) {
+      var userGet = Firestore.instance.collection('Users')
+          .document(userName)
+          .get();
+      userGet.then((DocumentSnapshot doc) {
+        User objUser = User.fromJson(doc.data);
+        objUser.isAdmin = false;
+        objUser.isAdventure = false;
+        objUser.isGuildMaster = true;
+        objUser.guildName = guildName;
+        objUser.adminName = this.name;
+        objUser.save();
+      });
+    }
+  }
+
   save() async{
     var usersRef = Firestore.instance.collection('Users').document(this.userName);
     var doc = await usersRef.get();
-    if(doc.exists==false) {
-      Firestore.instance.collection('Users').document(this.userName).setData(
-          toJson());
-    }
+    Firestore.instance.collection('Users').document(this.userName).setData(toJson());
   }
+
+  fromJson(Map<String, dynamic> json) {
+    this.level = json['level'];
+    this.xp = json['xp'];
+    this.name = json['name'];
+    this.avatarUrl = json['avatar_url'];
+    this.email = json['email'];
+    this.userKey = json['user_key'];
+    this.isAdmin = json['is_admin'];
+    this.isGuildMaster = json['is_guild_master'];
+    this.guildName = json['guild_name'];
+    this.isAdventure = json['is_adventure'];
+    this.adminName = json['admin_name'];
+    this.teamName = json['team_name'];
+    this.questID = json['quest_id'].cast<String>();
+  }
+
   User.fromJson(Map<String, dynamic> json) {
     level = json['level'];
     xp = json['xp'];
@@ -110,6 +198,7 @@ class User{
     isAdventure = json['is_adventure'];
     adminName = json['admin_name'];
     teamName = json['team_name'];
+    questID = json['quest_id'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
@@ -126,6 +215,16 @@ class User{
     data['is_adventure'] = this.isAdventure;
     data['admin_name'] = this.adminName;
     data['team_name'] = this.teamName;
+    data['quest_id'] = this.questID;
     return data;
+  }
+
+  _reload() async{
+    var userGet = Firestore.instance.collection('Users').document(this.userName).get();
+    userGet.then((DocumentSnapshot doc) {
+        //Get data of the user and reload the User object
+        var jsonfirestore = doc.data;
+        fromJson(jsonfirestore);
+    });
   }
 }

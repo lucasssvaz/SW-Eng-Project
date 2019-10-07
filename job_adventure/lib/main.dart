@@ -5,7 +5,6 @@ import 'package:job_adventure/Screens/ProfileScreen.dart';
 import 'package:job_adventure/Screens/QuestPage.dart';
 import 'package:job_adventure/Screens/TrelloLoginScreen.dart';
 
-
 void main() => runApp(MaterialApp(
   title: 'Job Adventure',
   initialRoute: 'loginScreen',
@@ -15,6 +14,6 @@ void main() => runApp(MaterialApp(
     'NavigationMenu': (context) => NavigationMenu(),
     '/webview': (context) => TrelloLoginScreen(),
     'profilescreen': (context) => ProfileScreen(),
-    ExtractArgumentsScreen.routeName: (contex) => new ExtractArgumentsScreen(),
+    ExtractArgumentsScreen.routeName: (context) => new ExtractArgumentsScreen(),
   }
 ));
