@@ -12,7 +12,7 @@ class IntereactableWidget extends StatelessWidget {
     return new GestureDetector(
       child: new InfoWidget(),
       onTap: () {
-        Navigator.pushNamed(context, 'profilescreen');
+        Navigator.pushNamed(context, 'profilescreen', arguments: user);
       },
     );
   }
