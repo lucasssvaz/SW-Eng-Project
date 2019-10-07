@@ -82,7 +82,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ]);
                   }),
 
-              ItemList()
+              new Expanded(child: ItemList())
 
               // new Expanded(
               //     //List of tasks
