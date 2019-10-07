@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:job_adventure/Widgets/ItemList.dart';
 import 'package:job_adventure/models/user.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -81,21 +82,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ]);
                   }),
 
-              new Expanded(
-                  //List of tasks
-                  child: ListView.separated(
-                      padding: EdgeInsets.all(10),
-                      itemCount: taskSamples.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        //Later change item builder to get the tasks from trello
-                        return Container(
-                            height: 50,
-                            color: Color.fromRGBO(255, 211, 109, 0.4),
-                            child:
-                                Center(child: Text('${taskSamples[index]}')));
-                      },
-                      separatorBuilder: (BuildContext context, int index) =>
-                          const Divider()))
+              ItemList()
+
+              // new Expanded(
+              //     //List of tasks
+              //     child: ListView.separated(
+              //         padding: EdgeInsets.all(10),
+              //         itemCount: taskSamples.length,
+              //         itemBuilder: (BuildContext context, int index) {
+              //           //Later change item builder to get the tasks from trello
+              //           return Container(
+              //               height: 50,
+              //               color: Color.fromRGBO(255, 211, 109, 0.4),
+              //               child:
+              //                   Center(child: Text('${taskSamples[index]}')));
+              //         },
+              //         separatorBuilder: (BuildContext context, int index) =>
+              //             const Divider()))
             ]));
   }
 }
