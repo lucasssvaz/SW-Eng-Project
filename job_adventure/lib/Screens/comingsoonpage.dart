@@ -35,7 +35,7 @@ class ComingSoonPage extends StatelessWidget {
                   height: 280.0,
                 ),
 
-                Text('We\'re writing a world for you ${value.toString()}', textScaleFactor: 1.5, textAlign: TextAlign.center,),
+                Text('We\'re writing a world for you', textScaleFactor: 1.5, textAlign: TextAlign.center,),
                 
                 ],
           )
