@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:job_adventure/models/user.dart';
 
+var value = random.nextInt(10);
 class ComingSoonPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

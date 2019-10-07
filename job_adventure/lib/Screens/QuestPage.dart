@@ -2,39 +2,6 @@ import '../models/quest.dart';
 import 'package:flutter/material.dart';
 
 class QuestPage extends StatefulWidget {
-  var quests = new List<Quest>();
-
-  //only to see a peace of this Quest Page
-  QuestPage() {
-    quests = [];
-    quests.add(Quest(
-        id: "1",
-        name: "Criar um tema",
-        goal: [
-          "Escolher um estilo de fontes",
-          "Escolher um estilo de cards",
-          "Criar uma minuatura",
-          "Criar um layout"
-        ],
-        goalStats: [false, false, true, false],
-        goalHours: [4, 4, 4, 4],
-        goalXp: [95,100,5,10],
-        rewardItemId: 5,
-        xp: 150
-    ));
-
-    quests.add(Quest(
-        id: "2",
-        name: "Teste",
-        goal: ["Testando"],
-        goalStats: [true],
-        goalHours: [1],
-        goalXp: [0],
-        rewardItemId: -1,
-        xp: 10
-    ));
-  }
-
   @override
   _QuestPage createState() => _QuestPage();
 }

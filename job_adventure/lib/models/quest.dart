@@ -1,6 +1,16 @@
+<<<<<<<<< Temporary merge branch 1
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Quest {
+=========
+import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:job_adventure/models/user.dart';
+
+class Quest {
+  Timer _timer;
+>>>>>>>>> Temporary merge branch 2
   String id;
   String name;
   List<String> goal;
