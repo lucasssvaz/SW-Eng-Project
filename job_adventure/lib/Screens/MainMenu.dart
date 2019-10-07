@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:job_adventure/models/user.dart';
+import 'package:job_adventure/models/quest.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:job_adventure/models/TrelloBoard.dart';
 
@@ -9,6 +10,7 @@ import 'package:job_adventure/models/TrelloBoard.dart';
 class IntereactableWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final User user = ModalRoute.of(context).settings.arguments;
     return new GestureDetector(
       child: new InfoWidget(),
       onTap: () {
@@ -58,15 +60,13 @@ class InfoWidget extends StatelessWidget {
 }
 
 class MainMenu extends StatelessWidget {
-  String username;
   final List<String> taskSamples = <String>[
     "This is a task",
     "This is another task",
     "This is another task"
   ];
   Widget build(BuildContext context) {
-    final String _trelloKey = ModalRoute.of(context).settings.arguments;
-    initialRouteUser(_trelloKey);
+    final User user = ModalRoute.of(context).settings.arguments;
     return Scaffold(
         body: Column(//Main column
             children: [
