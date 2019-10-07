@@ -115,4 +115,8 @@ class Quest {
     data['img_number'] = this.imgNumber;
     return data;
   }
+
+  save(){
+    Firestore.instance.collection('Quests').document(this.id).setData(toJson());
+  }
 }

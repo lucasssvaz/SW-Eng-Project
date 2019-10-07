@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:job_adventure/models/user.dart';
 import 'package:job_adventure/models/quest.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:job_adventure/models/TrelloBoard.dart';
 
 //This class is responsable for making the topbar (infowdget)
 //interractable
