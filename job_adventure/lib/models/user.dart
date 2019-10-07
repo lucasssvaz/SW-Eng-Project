@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:job_adventure/models/quest.dart';
+import 'package:job_adventure/models/TrelloBoard.dart';
 
 const String APIKey = "57a893b02ea2046b82ac861766a34bed";
 
@@ -15,9 +16,23 @@ final storage = new FlutterSecureStorage();
 //to extract informations of trelloUser account
 
 Future<User> initialRoute(String trelloKey) async{
+
   final response = await get("https://api.trello.com/1/members/me/?key="+APIKey+"&token="+trelloKey);
   var jsonresponse = json.decode(response.body);
-  return User(
+
+  TrelloBoards UserBoards = new TrelloBoards(trelloKey);
+  await UserBoards.FindAllBoards(trelloKey);
+
+  List<String> quests = new List<String>();
+
+  for(int i = 0; i < UserBoards.boards.length; i++)
+  {
+    Quest aux = UserBoards.boards[i].ToQuest();
+    quests.add(aux.id);
+    aux.save();
+  }
+
+  User user =  User(
     userName: jsonresponse['username'],
     level: 0,
     xp: 0,
@@ -31,8 +46,9 @@ Future<User> initialRoute(String trelloKey) async{
     isAdventure: true,
     adminName: null,
     teamName: null,
-    questID: null
+    questID: quests
   );
+  return user;
 }
 
 //User class -- interface of iteration in Firebase Cloud collection: Users
@@ -66,19 +82,24 @@ class User{
   this.isAdventure,
   this.adminName,
   this.teamName,
-  this.questID}){
-    if(questID==null)
+  this.questID})
+  {
+    if(questID == null)
       this.questID = new List<String>();
+
     var userGet = Firestore.instance.collection('Users').document(this.userName).get();
     userGet.then((DocumentSnapshot doc) {
-      if(doc.exists==false){
-        save();
-      }
-      else{
+      if(doc.exists)
+      {
         //Get data of the user and reload the User object
+
         var jsonfirestore = doc.data;
+
+        List<String> newQuests = this.questID;
         fromJson(jsonfirestore);
+        this.questID = newQuests;
       }
+      save();
       this._timer = Timer.periodic(Duration(milliseconds: 60000),(Timer t) => _reload());//1 min to reload object values from firestore
     });
   }
@@ -121,7 +142,6 @@ class User{
       this.questID = new List<String>();
     if(add==true) {
       this.questID.add(questId);
-      save();
     }
   }
 

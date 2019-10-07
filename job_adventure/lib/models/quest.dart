@@ -7,11 +7,11 @@ class Quest {
   Timer _timer;
   String id;
   String name;
-  List<String> goal;
-  List<String> goalID;
-  List<bool> goalStats;
-  List<int> goalHours;
-  List<int> goalXp;
+  List<String> goal = [];
+  List<String> goalID = [];
+  List<bool> goalStats = [];
+  List<int> goalHours = [];
+  List<int> goalXp = [];
   int imgNumber;
   int rewardItemId;
   int xp;
@@ -27,8 +27,10 @@ class Quest {
     this.rewardItemId,
     this.imgNumber,
     this.xp}){
-    var userGet = Firestore.instance.collection('Quest').document(this.name).get();
-    userGet.then((DocumentSnapshot doc) {
+    var userGet = Firestore.instance.collection('Quest').document(this.id).get();
+
+    userGet.then((DocumentSnapshot doc)
+    {
       if(this.imgNumber>5)
         this.imgNumber = 5;
       if(this.imgNumber<1)
@@ -61,13 +63,13 @@ class Quest {
   }
 
   save() async{
-    var usersRef = Firestore.instance.collection('Users').document(this.id);
-    var doc = await usersRef.get();
+    //var usersRef = Firestore.instance.collection('Users').document(this.id);
+    //var doc = await usersRef.get();
     Firestore.instance.collection('Quest').document(this.id).setData(toJson());
   }
 
   _reload() async{
-    var userGet = Firestore.instance.collection('Quest').document(this.name).get();
+    var userGet = Firestore.instance.collection('Quest').document(this.id).get();
     userGet.then((DocumentSnapshot doc) {
       //Get data of the user and reload the User object
       var jsonfirestore = doc.data;
@@ -115,4 +117,5 @@ class Quest {
     data['img_number'] = this.imgNumber;
     return data;
   }
+
 }

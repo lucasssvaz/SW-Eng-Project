@@ -42,6 +42,7 @@ class _QuestPageState extends State<QuestPage> {
             }
             else{
               final listquests = quests.data;
+              print("Tamanho da lista : "+listquests.length.toString());
               return Scaffold(
                   body: ListView.builder(
                     itemCount: listquests.length,
@@ -50,10 +51,10 @@ class _QuestPageState extends State<QuestPage> {
                       double percentualdone = listquests[index].percentualDone();
                       var listqueststyle;
                       if(percentualdone==1.0){
-                        listqueststyle = TextStyle(color: Colors.green, fontSize: 18.0, fontWeight: FontWeight.bold);
+                        listqueststyle = TextStyle(color: Colors.green, fontSize: 12.0, fontWeight: FontWeight.bold);
                       }
                       else{
-                        listqueststyle = TextStyle(color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold);
+                        listqueststyle = TextStyle(color: Colors.black, fontSize: 12.0, fontWeight: FontWeight.bold);
                       }
                       return Container(
                       width: MediaQuery.of(context).size.width,
@@ -173,7 +174,7 @@ class _ExtractArgumentsScreenState extends State<ExtractArgumentsScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(quest.name, style: TextStyle(color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold)),
+                          Text(quest.name, style: TextStyle(color: Colors.black, fontSize: 12.0, fontWeight: FontWeight.bold)),
                           LinearPercentIndicator(
                             width: 140.0,
                             lineHeight: 14.0,
