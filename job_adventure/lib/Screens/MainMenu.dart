@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:job_adventure/models/user.dart';
-import 'package:job_adventure/models/quest.dart';
 
 //This class is responsable for making the topbar (infowdget)
 //interractable

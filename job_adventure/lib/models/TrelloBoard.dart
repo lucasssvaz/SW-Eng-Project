@@ -1,4 +1,3 @@
-import 'package:job_adventure/models/user.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:job_adventure/models/quest.dart';

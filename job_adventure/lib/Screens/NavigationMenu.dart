@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:job_adventure/Screens/MainMenu.dart';
 import 'package:job_adventure/Screens/QuestPage.dart';
 import 'package:job_adventure/Screens/comingsoonpage.dart';
-import 'package:job_adventure/Screens/ProfileScreen.dart';
 import 'package:job_adventure/models/user.dart';
 
 class NavigationMenu extends StatefulWidget {

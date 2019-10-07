@@ -1,19 +1,9 @@
-import 'package:loading/indicator/ball_beat_indicator.dart';
-import 'package:loading/indicator/ball_grid_pulse_indicator.dart';
-import 'package:loading/indicator/ball_pulse_indicator.dart';
-import 'package:loading/indicator/ball_scale_indicator.dart';
-import 'package:loading/indicator/ball_scale_multiple_indicator.dart';
 import 'package:loading/indicator/ball_spin_fade_loader_indicator.dart';
-import 'package:loading/indicator/line_scale_indicator.dart';
-import 'package:loading/indicator/line_scale_party_indicator.dart';
-import 'package:loading/indicator/line_scale_pulse_out_indicator.dart';
 import 'package:loading/loading.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../models/quest.dart';
 import 'package:flutter/material.dart';
 import 'package:job_adventure/models/user.dart';
-import 'package:flutter/services.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class QuestPage extends StatefulWidget {

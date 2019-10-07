@@ -4,8 +4,6 @@ import 'package:job_adventure/Screens/LoginScreen.dart';
 import 'package:job_adventure/Screens/ProfileScreen.dart';
 import 'package:job_adventure/Screens/QuestPage.dart';
 import 'package:job_adventure/Screens/TrelloLoginScreen.dart';
-import 'package:job_adventure/models/TrelloBoard.dart';
-import 'package:job_adventure/models/quest.dart';
 
 void main() => runApp(MaterialApp(
   title: 'Job Adventure',

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:job_adventure/models/user.dart';
-import 'package:job_adventure/models/TrelloBoard.dart';
 
 const String ACCEPT = 'https://trello.com/1/token/approve';
 const String URL = "https://trello.com/1/authorize?expiration=never&name=Job+Adventure&scope=read%2Cwrite&response_type=token&key=57a893b02ea2046b82ac861766a34bed";
@@ -23,7 +22,7 @@ class TrelloLoginScreenState extends State<TrelloLoginScreen>{
   @override
   void initState(){
     super.initState();
-    timer = Timer.periodic(Duration(milliseconds: 100),(Timer t) => checkAcceptUrl());
+    timer = Timer.periodic(Duration(milliseconds: 100),(timer) => checkAcceptUrl());
   }
 
   Future<void> _getUserName() async{
