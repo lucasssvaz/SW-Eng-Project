@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:job_adventure/models/user.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -11,6 +10,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+
   //Id to acess the user document on firebase
   int user_id = 1;
 
@@ -21,7 +21,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    final User user = ModalRoute.of(context).settings.arguments;
     return new Scaffold(
         appBar: AppBar(
           title: Text("Profile"),
