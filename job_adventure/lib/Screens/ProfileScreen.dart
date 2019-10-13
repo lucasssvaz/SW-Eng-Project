@@ -20,7 +20,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final User user = ModalRoute.of(context).settings.arguments;
-    print("USERNAME"+user.userName);
+    //print("USERNAME"+user.userName);
     return new Scaffold(
         appBar: AppBar(
           title: Text("Profile"),
