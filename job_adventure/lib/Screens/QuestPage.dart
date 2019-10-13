@@ -138,8 +138,7 @@ class _ExtractArgumentsScreenState extends State<ExtractArgumentsScreen> {
         title: Text(quest.name),
         backgroundColor: Color.fromRGBO(255, 211, 109, 0.4),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: ListView(
         children: <Widget>[
           Container(
               width: MediaQuery.of(context).size.width,
