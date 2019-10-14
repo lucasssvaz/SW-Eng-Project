@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:job_adventure/Screens/GuildScreen.dart';
 import 'package:job_adventure/Screens/MainMenu.dart';
 import 'package:job_adventure/Screens/QuestPage.dart';
 import 'package:job_adventure/Screens/comingsoonpage.dart';
@@ -18,8 +19,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
   final List<Widget> _widgetOptins = <Widget>[
     MainMenu(),
     QuestPage(),
-    //ProfileScreen(),
-    ComingSoonPage(),
+    GuildScreen(),
     ComingSoonPage()
   ];
   void _onItemTapped(int index){
