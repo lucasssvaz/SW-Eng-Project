@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:job_adventure/Functions/guildFunctions.dart';
 import 'package:job_adventure/Widgets/ItemList.dart';
 import 'package:job_adventure/models/user.dart';
 
