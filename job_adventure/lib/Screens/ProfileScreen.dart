@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:job_adventure/Widgets/GuildList.dart';
+import 'package:job_adventure/Functions/guildFunctions.dart';
 import 'package:job_adventure/Widgets/ItemList.dart';
 import 'package:job_adventure/models/user.dart';
 
@@ -20,7 +20,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    insertGuild('Teste','Placeholder','vlademircelsodossantosjunior','assets/images/GuildIcons/Stark-icon.png',['vlademircelsodossantosjunior','leonsilva7','zafiro5']);
     final User user = ModalRoute.of(context).settings.arguments;
     print("USERNAME"+user.userName);
     return new Scaffold(
@@ -129,7 +128,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     //new Column(children: <Widget>[new Expanded(child: new ItemList(),)],),
                   ])),
 
-              new Expanded(child: GuildList()),
+              new Expanded(child: ItemList()),
 
               // new Expanded(
               //     //List of tasks
