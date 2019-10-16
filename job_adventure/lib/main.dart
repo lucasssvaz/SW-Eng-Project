@@ -1,11 +1,15 @@
+import 'dart:core';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:job_adventure/Screens/NavigationMenu.dart';
 import 'package:job_adventure/Screens/LoginScreen.dart';
 import 'package:job_adventure/Screens/ProfileScreen.dart';
 import 'package:job_adventure/Screens/QuestPage.dart';
 import 'package:job_adventure/Screens/TrelloLoginScreen.dart';
+import 'package:job_adventure/models/TrelloUtility.dart';
+import 'package:job_adventure/models/quest.dart';
 
-void main() => runApp(MaterialApp(
+void main()=> runApp(MaterialApp(
   title: 'Job Adventure',
   initialRoute: 'loginScreen',
   debugShowCheckedModeBanner: false,
@@ -17,27 +21,25 @@ void main() => runApp(MaterialApp(
     ExtractArgumentsScreen.routeName: (context) => new ExtractArgumentsScreen(),
   }
 ));
+
 /*
 {
     String APIKey = "57a893b02ea2046b82ac861766a34bed";
     String trelloKey = "3b7b3d9cae92dd09da1f04315ae95309a2ce10fbfe7f9bd002f0720ba2de44ec";
 
+    TrelloUtility myUtility = new TrelloUtility(trelloKey);
+    //List<Quest> AllQuests = await myUtility.InitialTrelloUtility(true);
 
-    TrelloBoards UserBoards = new TrelloBoards(trelloKey);
-    await UserBoards.FindAllBoards(trelloKey);
+    Quest myQuest = new Quest.toLoad();
+    await myQuest.load("5da4c6c97c88da165442504b");
+    //print("Teste 4 : " + myQuest.goal.toString());
+    myQuest.goal[0] = "Achar os TeamBoards";
+    myUtility.GoalSave(myQuest,0);
 
-    print("Até aqui funfa");
-
-    for(int i =0; i < UserBoards.boards.length; i++)
-    {
-        Quest aux = UserBoards.boards[i].ToQuest();
-        aux.save();
-    }
-
-
-    print("Convertido Board para Quest");
-
-
+    myQuest.goal[0] = "Interligação com o Banco de Dados";
+    myQuest.name = "Eng de Software";
+    myUtility.UpdateCard(myQuest, 0);
+    myUtility.UpdateBoard(myQuest);
 
     print("algo novo");
 
