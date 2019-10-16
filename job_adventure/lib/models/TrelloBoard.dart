@@ -36,7 +36,7 @@ class TrelloBoards
   FindAllBoards(String trelloKey) async
   {
 
-    VectorString AllBoards = await _requestAllBoards("https://api.trello.com/1/members/me?boardStars=false&organization_paid_account=false&paid_account=false&savedSearches=false&key="+APIKey+"&token="+trelloKey);
+    VectorString AllBoards = await _requestAllBoards("https://api.trello.com/1/members/me?key="+APIKey+"&token="+trelloKey);
 
 
     for(int i = 0; i < AllBoards.vector.length; i++)
@@ -87,7 +87,6 @@ class TrelloBoard
       rewardItemId: 1
     );
 
-
     for(int  j = 0; j < cards.length; j++)
     {
       UserQuest.goal.add(this.cards[j]['name']);
@@ -99,13 +98,17 @@ class TrelloBoard
     return UserQuest;
   }
 
+
+
   // Construtores -------------------------------------------------------------
 
   TrelloBoard({this.id, this.name});
 
+  TrelloBoard.Complete({this.id, this.name, this.cards});
+
   TrelloBoard.BasicToRquest();
 
-  TrelloBoard.ByQuest(Quest UserQuest)
+  TrelloBoard.ByQuest(Quest UserQuest, String trelloKey)
   {
     // Usar metodo "ToBoard" da quest
     // para atribuir valor aos atributos
@@ -115,11 +118,8 @@ class TrelloBoard
   Build_ByIdRequest(String BoardId, String trelloKey) async
   {
 
-
     await _FindAllCardsInBoard(BoardId, trelloKey);
-
     this.id = BoardId;
-
     this.name = await _RequestTrelloName(BoardId, trelloKey);
   }
 

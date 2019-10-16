@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:job_adventure/models/TrelloUtility.dart';
 import 'package:job_adventure/models/quest.dart';
 import 'package:job_adventure/models/TrelloBoard.dart';
 
@@ -17,16 +18,20 @@ Future<User> initialRoute(String trelloKey) async{
   final response = await get("https://api.trello.com/1/members/me/?key="+APIKey+"&token="+trelloKey);
   var jsonresponse = json.decode(response.body);
 
+  TrelloUtility myUtility = new TrelloUtility(trelloKey);
+  List<Quest> AllQuests = await myUtility.InitialTrelloUtility(true);
+
+/*
   TrelloBoards UserBoards = new TrelloBoards(trelloKey);
   await UserBoards.FindAllBoards(trelloKey);
+*/
 
-  List<String> quests = new List<String>();
+  List<String> quests = [];
 
-  for(int i = 0; i < UserBoards.boards.length; i++)
+  for(int i = 0; i < AllQuests.length; i++)
   {
-    Quest aux = UserBoards.boards[i].ToQuest();
+    Quest aux = AllQuests[i];
     quests.add(aux.id);
-    aux.save();
   }
 
   User user =  User(
@@ -65,6 +70,7 @@ class User{
   String adminName;
   String teamName;
   List<String> questID;
+  TrelloUtility MyUtility;
 
   User({this.userName,
   this.level,

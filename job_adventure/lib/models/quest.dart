@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:http/http.dart';
+import 'package:job_adventure/models/TrelloUtility.dart';
 
 class Quest {
   Timer _timer;
@@ -13,6 +16,8 @@ class Quest {
   int imgNumber;
   int rewardItemId;
   int xp;
+
+  Quest.toLoad();
 
   Quest({
     this.id,
@@ -66,6 +71,13 @@ class Quest {
     Firestore.instance.collection('Quest').document(this.id).setData(toJson());
   }
 
+  load(String IdQuest) async
+  {
+    DocumentSnapshot Snap = await Firestore.instance.collection('Quest').document(IdQuest).get();
+    fromJson(Snap.data);
+
+  }
+
   _reload() async{
     var userGet = Firestore.instance.collection('Quest').document(this.id).get();
     userGet.then((DocumentSnapshot doc) {
@@ -73,6 +85,16 @@ class Quest {
       var jsonfirestore = doc.data;
       fromJson(jsonfirestore);
     });
+  }
+
+  updateCard(TrelloUtility myUtility, int i) async
+  {
+    myUtility.GoalSave(this, i);
+  }
+
+  updateBoard(TrelloUtility myUtility) async
+  {
+    myUtility.QuestSave(this);
   }
 
   fromJson(Map<String, dynamic> json) {
