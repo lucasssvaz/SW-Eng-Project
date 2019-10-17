@@ -31,7 +31,7 @@ void insertItem(String userID, String itemID){
     dynamic itemNameMessage = ds['Name'];
     String itemName = itemNameMessage != null? itemNameMessage.toString() : '<No message retrieved>';
     dynamic itemDescriptionMessage = ds['Description'];
-    String itemDescription = itemDescriptionMessage != null? itemNameMessage.toString() : '<No message retrieved>';
+    String itemDescription = itemDescriptionMessage != null? itemDescriptionMessage.toString() : '<No message retrieved>';
     dynamic itemLevelMessage = ds['Lvl'];
     String itemLevel = itemNameMessage != null? itemLevelMessage.toString() : '<No message retrieved>';
     dynamic itemPathMessage = ds['ImagePath'];
@@ -43,7 +43,7 @@ void insertItem(String userID, String itemID){
 class ItemList extends StatelessWidget{
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>( 
-      stream: Firestore.instance.collection('Users').document('vlademircelsodossantosjunior').collection('Items').snapshots(), 
+      stream: Firestore.instance.collection('Users').document('vlademircelsodossantosjunior').collection('Items').snapshots(), //Replace with user ID
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (!snapshot.hasData) return const Text('Loading...');
         final int messageCount = snapshot.data.documents.length;
