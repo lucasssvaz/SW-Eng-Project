@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:job_adventure/models/quest.dart';
 
 // Uso: insertGuild(nome da guilda, descricao, ID do guild master, path da imagem, Lista dos IDs dos membros)
 
-void insertGuild(String guildName, String guildDescription, String guildMasterID, String guildImage, List<String> membersID){
-  Firestore.instance.collection('Guilds').document(guildName).setData({'Description': guildDescription,'GuildMasterID':guildMasterID,'Name':guildName,'ImagePath':guildImage});
+void insertGuild(String guildName, String guildDescription, String guildMasterID, String guildImage, List<String> membersID, List<String> questIDs){
+  Firestore.instance.collection('Guilds').document(guildName).setData({'Description': guildDescription,'GuildMasterID':guildMasterID,'Name':guildName,'ImagePath':guildImage, 'Quests': questIDs});
   membersID.forEach((f){
     Firestore.instance.collection('Users').document(f).get().then((DocumentSnapshot ds){
       dynamic memberNameMessage = ds['name'];
@@ -69,5 +70,19 @@ void increaseGuildMemberXP(String guildName, String userID, int xpAmount){
     if(snapshot.exists){
       await myTransction.update(ref, {'memberXP': snapshot.data['memberXP'] + xpAmount});
     }
+  });
+}
+
+
+void insertQuestInGuild(String guildName, List<String> questIDs){
+  Firestore.instance.collection('Guilds').document(guildName).get().then((DocumentSnapshot doc){
+    var jsonresponse = doc.data;
+    List<String> quests = jsonresponse['Quests'].cast<Quest>();
+    int i;
+    for(i=0;i<questIDs.length;i++){
+      quests.add(questIDs[i]);
+    }
+    jsonresponse['Quests'] = quests;
+    Firestore.instance.collection('Guilds').document(guildName).setData(jsonresponse);
   });
 }
