@@ -57,6 +57,8 @@ class Quest {
     int doneHours = 0;
     int TotalHours = 0;
     int i;
+    if(goal.length==0)
+      return 0;
     for(i=0;i<goal.length;i++){
       TotalHours = TotalHours + goalHours[i];
       if(goalStats[i]==true)
