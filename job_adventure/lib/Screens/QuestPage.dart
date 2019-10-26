@@ -16,6 +16,7 @@ class _QuestPageState extends State<QuestPage> {
   @override
   Widget build(BuildContext context) {
     final User user = ModalRoute.of(context).settings.arguments;
+    double c_width = MediaQuery.of(context).size.width*0.4;
     return Scaffold(
         body: FutureBuilder(
           future: user.getQuests(),
@@ -32,7 +33,6 @@ class _QuestPageState extends State<QuestPage> {
             }
             else{
               final listquests = quests.data;
-              print("Tamanho da lista : "+listquests.length.toString());
               return Scaffold(
                   body: ListView.builder(
                     itemCount: listquests.length,
@@ -41,10 +41,10 @@ class _QuestPageState extends State<QuestPage> {
                       double percentualdone = listquests[index].percentualDone();
                       var listqueststyle;
                       if(percentualdone==1.0){
-                        listqueststyle = TextStyle(color: Colors.green, fontSize: 12.0, fontWeight: FontWeight.bold);
+                        listqueststyle = TextStyle(color: Colors.green, fontSize: 17.0, fontWeight: FontWeight.bold);
                       }
                       else{
-                        listqueststyle = TextStyle(color: Colors.black, fontSize: 12.0, fontWeight: FontWeight.bold);
+                        listqueststyle = TextStyle(color: Colors.black, fontSize: 17.0, fontWeight: FontWeight.bold);
                       }
                       return Container(
                       width: MediaQuery.of(context).size.width,
@@ -77,7 +77,17 @@ class _QuestPageState extends State<QuestPage> {
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          Text(listquests[index].name, style: listqueststyle),
+                                          Container(
+                                            width: c_width,
+                                            child: Column(
+                                              children: <Widget>[
+                                                Align(
+                                                    alignment: Alignment.centerLeft,
+                                                    child: Text(removeQuestTitleTrelloPresets(listquests[index].name), style: listqueststyle)
+                                                )
+                                              ],
+                                            ),
+                                          ),
                                           LinearPercentIndicator(
                                             width: 140.0,
                                             lineHeight: 14.0,
@@ -123,6 +133,10 @@ class _QuestPageState extends State<QuestPage> {
   }
 }
 
+String removeQuestTitleTrelloPresets(String title){
+  return title.replaceAll('QuadroPessoal', '').replaceAll('QuadroCompartilhado', '');
+}
+
 class ExtractArgumentsScreen extends StatefulWidget {
   static const routeName = 'extractArgumentsQuest';
   @override
@@ -133,9 +147,18 @@ class _ExtractArgumentsScreenState extends State<ExtractArgumentsScreen> {
   @override
   Widget build(BuildContext context) {
     final Quest quest = ModalRoute.of(context).settings.arguments;
+    var percentualdone = quest.percentualDone();
+    double c_width = MediaQuery.of(context).size.width*0.45;
+    var listqueststyle;
+    if(percentualdone==1.0){
+      listqueststyle = TextStyle(color: Colors.green, fontSize: 17.0, fontWeight: FontWeight.bold);
+    }
+    else{
+      listqueststyle = TextStyle(color: Colors.black, fontSize: 17.0, fontWeight: FontWeight.bold);
+    }
     return Scaffold(
       appBar: AppBar(
-        title: Text(quest.name),
+        title: Text(removeQuestTitleTrelloPresets(quest.name)),
         backgroundColor: Color.fromRGBO(255, 211, 109, 0.4),
       ),
       body: ListView(
@@ -163,11 +186,21 @@ class _ExtractArgumentsScreenState extends State<ExtractArgumentsScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(quest.name, style: TextStyle(color: Colors.black, fontSize: 12.0, fontWeight: FontWeight.bold)),
+                          Container(
+                            width: c_width,
+                            child: Column(
+                              children: <Widget>[
+                                Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(removeQuestTitleTrelloPresets(quest.name), style: listqueststyle)
+                                )
+                              ],
+                            ),
+                          ),
                           LinearPercentIndicator(
                             width: 140.0,
                             lineHeight: 14.0,
-                            percent: quest.percentualDone(),
+                            percent: percentualdone,
                             backgroundColor: Colors.black,
                             progressColor: Colors.green,
                           ),
@@ -205,6 +238,7 @@ class _ExtractArgumentsScreenState extends State<ExtractArgumentsScreen> {
                   text_style = TextStyle(color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold);
                   icon = Icon(Icons.check_circle, color: Colors.orange, size: 32.0,);
                 }
+                double c_width = MediaQuery.of(context).size.width*0.6;
                 return Container(
                   width: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
@@ -219,15 +253,27 @@ class _ExtractArgumentsScreenState extends State<ExtractArgumentsScreen> {
                       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                       child: Container(
                           width: MediaQuery.of(context).size.width,
-                          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                          padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Text(quest.goal[index], style: text_style,),
+                                      Container(
+                                        padding: const EdgeInsets.all(2.0),
+                                        width: c_width,
+                                        child: Column(
+                                          children: <Widget>[
+                                            Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(quest.goal[index], style: text_style,)
+                                            )
+                                          ],
+                                        ),
+                                      ),
+
                                       Padding(padding: EdgeInsets.all(1.0)),
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
