@@ -44,7 +44,7 @@ Future<User> initialRoute(String trelloKey) async{
     userKey: trelloKey,
     isAdmin: false,
     isGuildMaster: false,
-    guildName: null,
+    guildNameGuildMaster: null,
     isAdventure: true,
     adminName: null,
     teamName: null,
@@ -65,7 +65,7 @@ class User{
   String userKey;
   bool isAdmin;
   bool isGuildMaster;
-  String guildName;
+  List<String> guildNameGuildMaster;
   bool isAdventure;
   String adminName;
   String teamName;
@@ -81,7 +81,7 @@ class User{
   this.userKey,
   this.isAdmin,
   this.isGuildMaster,
-  this.guildName,
+  this.guildNameGuildMaster,
   this.isAdventure,
   this.adminName,
   this.teamName,
@@ -148,6 +148,12 @@ class User{
     }
   }
 
+  addGuild(String guildName){
+    if(isGuildMaster==false)
+      isGuildMaster = true;
+    guildNameGuildMaster.add(guildName);
+  }
+
   chanceAvatarUrl(int i){//Vet indice image in our list
   }
 
@@ -161,25 +167,8 @@ class User{
         objUser.isAdmin = true;
         objUser.isAdventure = false;
         objUser.isGuildMaster = false;
-        objUser.guildName = null;
+        objUser.guildNameGuildMaster = null;
         objUser.questID = null;
-        objUser.adminName = this.name;
-        objUser.save();
-      });
-    }
-  }
-
-  setGuild(String userName, String guildName){
-    if(this.isAdmin==true) {
-      var userGet = Firestore.instance.collection('Users')
-          .document(userName)
-          .get();
-      userGet.then((DocumentSnapshot doc) {
-        User objUser = User.fromJson(doc.data);
-        objUser.isAdmin = false;
-        objUser.isAdventure = false;
-        objUser.isGuildMaster = true;
-        objUser.guildName = guildName;
         objUser.adminName = this.name;
         objUser.save();
       });
@@ -201,7 +190,7 @@ class User{
     this.userKey = json['user_key'];
     this.isAdmin = json['is_admin'];
     this.isGuildMaster = json['is_guild_master'];
-    this.guildName = json['guild_name'];
+    this.guildNameGuildMaster = json['guild_name'].cast<String>();
     this.isAdventure = json['is_adventure'];
     this.adminName = json['admin_name'];
     this.teamName = json['team_name'];
@@ -217,7 +206,7 @@ class User{
     userKey = json['user_key'];
     isAdmin = json['is_admin'];
     isGuildMaster = json['is_guild_master'];
-    guildName = json['guild_name'];
+    guildNameGuildMaster = json['guild_name'].cast<String>();
     isAdventure = json['is_adventure'];
     adminName = json['admin_name'];
     teamName = json['team_name'];
@@ -234,7 +223,7 @@ class User{
     data['user_key'] = this.userKey;
     data['is_admin'] = this.isAdmin;
     data['is_guild_master'] = this.isGuildMaster;
-    data['guild_name'] = this.guildName;
+    data['guild_name'] = this.guildNameGuildMaster;
     data['is_adventure'] = this.isAdventure;
     data['admin_name'] = this.adminName;
     data['team_name'] = this.teamName;

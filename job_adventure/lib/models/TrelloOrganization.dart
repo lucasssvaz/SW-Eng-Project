@@ -293,6 +293,8 @@ class organizationTrello{
       else{
         _getListMembers(user).then((str){insertGuild(this.name, description, user.name, guildImage, _members, _questIDsConfigured);});
       }
+      user.addGuild(this.name);
+      user.save();
     }
     _addListQuestInListUsers(_questIDsConfigured, _members);
     _questIDsConfigured = new List<String>();
