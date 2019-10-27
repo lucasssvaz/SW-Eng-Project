@@ -86,3 +86,66 @@ void insertQuestInGuild(String guildName, List<String> questIDs){
     Firestore.instance.collection('Guilds').document(guildName).setData(jsonresponse);
   });
 }
+
+
+//Classe que sera retornada como lista em getGuildRank
+class rankGuildObj{
+  String userName;
+  int xp;
+  rankGuildObj({this.userName, this.xp});
+}
+
+Future<List<rankGuildObj>> getGuildRank(String guildName) async{
+  var response = (await Firestore.instance.document('Guilds').collection(guildName).document('Members').get()).data;
+  List<rankGuildObj> list = new List<rankGuildObj>();
+  String userName;
+  for(userName in response.keys){
+    var xpRequest = (await Firestore.instance.collection('Guilds').document(guildName).collection('Members').document(userName).get()).data;
+    list.add(new rankGuildObj(
+        userName: userName,
+        xp: xpRequest['memberXP']
+    ));
+  }
+  mergeSortRank(list, 0, list.length-1);
+  return list;
+}
+
+void mergeSortRank_concatena(List<rankGuildObj> list, int p, int q, int r){
+  int i1=0;
+  int i2=q+1-p;
+  int j=p;
+  List<rankGuildObj> aux = new List<rankGuildObj>();
+  for(int i=0;i<=(r-q);i++){
+    aux.add(list[p+i]);
+  }
+  while((j!=r)){
+    if((i1<q+1-p)&&(i2<=r-p)){
+      if(aux[i1].xp>=aux[i2].xp){
+        list[j] = aux[i1];
+        i1++;
+      }
+      else{
+        list[j] = aux[i2];
+        i2++;
+      }
+    }
+    else if(i1<q+1-p){
+      list[j] = aux[i1];
+      i1++;
+    }
+    else{
+      list[j] = aux[i2];
+      i2++;
+    }
+    j++;
+  }
+}
+
+void mergeSortRank(List<rankGuildObj> list, int p, int r){
+  if(p!=r){
+    int q = ((r-p)/2).floor();
+    mergeSortRank(list, p, q);
+    mergeSortRank(list, q+1, r);
+    mergeSortRank_concatena(list, p, q, r);
+  }
+}

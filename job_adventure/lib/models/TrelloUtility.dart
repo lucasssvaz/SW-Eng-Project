@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:core';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart';
 import 'package:job_adventure/models/TrelloBoard.dart';
 import 'package:job_adventure/models/quest.dart';
@@ -30,7 +31,7 @@ class TrelloUtility{
   // onde tudo o que captas já está atualizado
   // (exceto se essa for sua primeira vez)
 
-  Future <List<Quest>> InitialTrelloUtility(bool save) async
+  Future <List<Quest>> InitialTrelloUtility(bool save) async //remover o save depois
   {
     List<Quest> myQuests = [];
 
@@ -43,32 +44,40 @@ class TrelloUtility{
     // Converte cada Board em uma quest
     for(int i = 0; i < myBoards.length; i++)
     {
-      // Requisita os Cards(goals) de cada Board
-      dynamic Board = await RequestBoard(myBoards[i]);
-
-      Quest UserQuest = Quest(
-          id: myBoards[i], name: Board['name'], goal: [], goalID: [],
-          goalStats: [], goalHours: [], goalXp: [], xp: 1, imgNumber: 1, rewardItemId: 1
-      );
-
-      //print("Teste 1: " + myBoards[i].toString() + " : " + Board['name']);
-
-      dynamic card = Board['cards'];
-      for(int  j = 0; j < card.length; j++)
+      Quest UserQuest;
+      // Verifica se o Board(Quest) já existe no banco
+      DocumentSnapshot Snap = await Firestore.instance.collection('Quest').document(myBoards[i]).get();
+      if(!Snap.exists)
       {
-        UserQuest.goal.add(card[j]['name']);
-        UserQuest.goalID.add(card[j]['id']);
-        UserQuest.goalStats.add(card[j]['closed']);
-        UserQuest.goalHours.add(1);
-        UserQuest.goalXp.add(5);
+        // Requisita os Cards(goals) de cada Board
+        dynamic Board = await RequestBoard(myBoards[i]);
 
-        //print("Teste 2: " + card[j]['name'] + " : " + card[j]['id'] + " : " + card[j]['closed'].toString());
-      }
+        UserQuest = new Quest(
+            id: myBoards[i], name: Board['name'], goal: [], goalID: [],
+            goalStats: [], goalHours: [], goalXp: [], xp: 1, imgNumber: 1, rewardItemId: 1
+        );
 
-      myQuests.add(UserQuest);
+        //print("Teste 1: " + myBoards[i].toString() + " : " + Board['name']);
 
-      if(save)
+        dynamic card = Board['cards'];
+        for(int  j = 0; j < card.length; j++)
+        {
+          UserQuest.goal.add(card[j]['name']);
+          UserQuest.goalID.add(card[j]['id']);
+          UserQuest.goalStats.add(card[j]['closed']);
+          UserQuest.goalHours.add(1);
+          UserQuest.goalXp.add(5);
+
+          //print("Teste 2: " + card[j]['name'] + " : " + card[j]['id'] + " : " + card[j]['closed'].toString());
+        }
+
         UserQuest.save();
+      }
+      else
+      {
+        UserQuest = new Quest.fromJson(Snap.data);
+      }
+      myQuests.add(UserQuest);
     }
 
     // Recupera todos as Quests do Banco

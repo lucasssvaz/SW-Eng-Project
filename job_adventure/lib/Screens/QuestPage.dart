@@ -6,6 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:job_adventure/models/user.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
+class ArgumentGoalPage{
+  User user;
+  Quest quest;
+  ArgumentGoalPage({this.user, this.quest});
+}
+
 class QuestPage extends StatefulWidget {
   @override
   _QuestPageState createState() => _QuestPageState();
@@ -107,7 +113,7 @@ class _QuestPageState extends State<QuestPage> {
                                         Navigator.pushNamed(
                                           context,
                                           ExtractArgumentsScreen.routeName,
-                                          arguments: listquests[index]
+                                          arguments: new ArgumentGoalPage(user: user, quest: listquests[index])
                                         );
                                       },
                                       color: Colors.amberAccent,
@@ -146,7 +152,9 @@ class ExtractArgumentsScreen extends StatefulWidget {
 class _ExtractArgumentsScreenState extends State<ExtractArgumentsScreen> {
   @override
   Widget build(BuildContext context) {
-    final Quest quest = ModalRoute.of(context).settings.arguments;
+    final ArgumentGoalPage args = ModalRoute.of(context).settings.arguments;
+    final Quest quest = args.quest;
+    final User user = args.user;
     var percentualdone = quest.percentualDone();
     double c_width = MediaQuery.of(context).size.width*0.45;
     var listqueststyle;
@@ -295,11 +303,16 @@ class _ExtractArgumentsScreenState extends State<ExtractArgumentsScreen> {
                                   icon: icon,
                                   onPressed: (){
                                     setState(() {
-                                      if(quest.goalStats[index]==true)
+                                      if (quest.goalStats[index] == true) {
                                         quest.goalStats[index] = false;
-                                      else
+                                        quest.save();
+                                        changeQuestGoal(user, quest, index, false);
+                                      }
+                                      else {
                                         quest.goalStats[index] = true;
-                                      quest.save();
+                                        quest.save();
+                                        changeQuestGoal(user, quest, index, true);
+                                      }
                                     });
                                   },
                                 ),

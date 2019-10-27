@@ -50,6 +50,7 @@ Future<User> initialRoute(String trelloKey) async{
     teamName: null,
     questID: quests
   );
+  user.MyUtility = myUtility;
   return user;
 }
 
