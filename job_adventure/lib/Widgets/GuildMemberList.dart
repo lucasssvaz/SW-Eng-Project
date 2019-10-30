@@ -9,7 +9,7 @@ class GuildMemberList extends StatelessWidget{
   final String guildName;
   Widget build(BuildContext context){
     return new StreamBuilder(
-      stream: Firestore.instance.collection('Guilds').document(guildName).collection('Members').snapshots(),
+      stream: Firestore.instance.collection('Guilds').document(guildName).collection('Members').orderBy('memberXP', descending: true).snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
         if (!snapshot.hasData) return const Text('Loading...');
         final int messageCount = snapshot.data.documents.length;
@@ -19,8 +19,16 @@ class GuildMemberList extends StatelessWidget{
             final DocumentSnapshot document = snapshot.data.documents[index];
             dynamic message1 = document['Name'];
             String userName = message1 != null ? message1.toString() : '<No message retrieved>';
+            dynamic message2 = document['memberXP'];
+            String xp = message2 != null ? message2.toString() : '<No message retrieved>';
             return new Card(
-              child: new Text(userName)
+              child: Row(
+                children: <Widget>[
+                  new Text((index+1).toString()),
+                  new Text(userName),
+                  new Text(xp.toString())
+                ],
+              )
             );
           }
         );
