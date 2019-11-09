@@ -44,7 +44,8 @@ class Board{
   }
 
   Future<void> getRead(String tokenUser) async{
-    var thread = await _findAllCards(tokenUser);
+    var thread1 = await _findAllCards(tokenUser);
+    var thread2 = await boardyAlreadyQuest();
   }
 
   List<String> getListCardNames(String tokenUser){
@@ -282,7 +283,7 @@ class organizationTrello{
     }
   }
 
-  configurateGuild(String description, User user, String guildImage, String tokenUser){
+  configurateGuild(String description, User user, String guildImage){
     if(_guildExists){
       insertQuestInGuild(this.name, _questIDsConfigured);
     }

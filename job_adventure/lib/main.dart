@@ -8,6 +8,7 @@ import 'package:job_adventure/Screens/QuestPage.dart';
 import 'package:job_adventure/Screens/TrelloLoginScreen.dart';
 import 'package:job_adventure/models/TrelloUtility.dart';
 import 'package:job_adventure/models/quest.dart';
+import 'package:job_adventure/Screens/TrelloTeamToGuild.dart';
 
 void main()=> runApp(MaterialApp(
   title: 'Job Adventure',
@@ -19,6 +20,7 @@ void main()=> runApp(MaterialApp(
     '/webview': (context) => TrelloLoginScreen(),
     'profilescreen': (context) => ProfileScreen(),
     ExtractArgumentsScreen.routeName: (context) => new ExtractArgumentsScreen(),
+    TrelloTeamToGuild.routeName: (context) => new TrelloTeamToGuild(),
   }
 ));
 
