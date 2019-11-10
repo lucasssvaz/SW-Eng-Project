@@ -175,30 +175,35 @@ class organizationTrello{
     int i;
     String urlRequest = 'https://api.trello.com/1/organizations/'+this.id+'/memberships?filter=all&member=false&key='+APIKey+'&token='+tokenUser;
     final response = await get(urlRequest);
-    List<dynamic> listIDMembers = json.decode(response.body);
+
+    dynamic listIDMembers = json.decode(response.body);
+
     for(i=0;i<listIDMembers.length;i++){
-      final responsemember = await get("https://api.trello.com/1/members/me/?key="+APIKey+"&token="+listIDMembers[i]['idMember']);
+
+      print('Atual membro: '+listIDMembers[i]['memberType']);
+      final responsemember = await get('https://api.trello.com/1/members/'+listIDMembers[i]['idMember']+'?boardBackgrounds=none&boardsInvited_fields=name%2Cclosed%2CidOrganization%2Cpinned&boardStars=false&cards=none&customBoardBackgrounds=none&customEmoji=none&customStickers=none&fields=all&organizations=none&organization_fields=all&organization_paid_account=false&organizationsInvited=none&organizationsInvited_fields=all&paid_account=false&savedSearches=false&tokens=none&key='+APIKey+'&token='+user.userKey);
       var jsonresponse = json.decode(responsemember.body);
       this._members.add(jsonresponse['username']);
-      if(jsonresponse['username']==user.name){
-        List<dynamic> orgmember = json.decode(response.body);
-        var isAdmin = orgmember[i]["memberType"];
-        if(isAdmin=='admin')
+      print('carregado o membro: '+jsonresponse['username']);
+
+      if(listIDMembers[i]['memberType']=='admin'){
+        print('Um admin desse Team: '+jsonresponse['username']);
+        if(jsonresponse['username']==user.userName&&isGuildMaster==false)
           this.isGuildMaster = true;
-        else
-          this.isGuildMaster = false;
       }
     }
     this._membersIsLoad = true;
   }
 
   Future<void> getRead(User user) async{
-    if(_boardsIsLoad==false){
-      var thread = await _organizationBoards(user.userKey);
-    }
-    if(_membersIsLoad==false){
-      var thread = await _getListMembers(user);
-    }
+    if(_boardsIsLoad==false)
+      var thread1 = await _organizationBoards(user.userKey);
+    if(_membersIsLoad==false)
+      var thread2 = await _getListMembers(user);
+  }
+
+  bool organizationAlreadyGuild(){
+    return this._guildExists;
   }
 
   List<String> getListMembers(User user){
