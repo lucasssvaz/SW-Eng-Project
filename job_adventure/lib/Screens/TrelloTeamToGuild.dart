@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:job_adventure/models/guild.dart';
 import 'package:job_adventure/models/TrelloOrganization.dart';
@@ -21,6 +23,42 @@ class TrelloTeamToGuild extends StatefulWidget {
 }
 
 class _TrelloTeamToGuildState extends State<TrelloTeamToGuild> {
+  List<String> members;
+  final _ImagesPath = "assets/images/GuildIcons/";
+  final List<String> _images = ["business-guild-shield.png", "guild1.png", "guild2.png", "guild3.jpg", "guild4.png", "Stark-icon.png"];
+
+  void _showPopUpListMembers() {
+    showDialog<Null>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: new Text('Lista de membros'),
+          content: Container(
+            width: MediaQuery.of(context).size.width*0.60,
+            height: MediaQuery.of(context).size.width*0.60,
+            child: ListView(
+              padding: EdgeInsets.all(8.0),
+              //map List of our data to the ListView
+              children: members.map((data) => Text('- '+data)).toList(),
+            ),
+          ),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  final myController = TextEditingController();
+  int imgNumber = 0;
+
   @override
   Widget build(BuildContext context) {
     final TrelloTeamToGuildArgs args = ModalRoute.of(context).settings.arguments;
@@ -29,12 +67,13 @@ class _TrelloTeamToGuildState extends State<TrelloTeamToGuild> {
     return Scaffold(
       appBar: AppBar(
         title: Text(organization.name),
-        backgroundColor: Color.fromRGBO(255, 211, 109, 0.4)
+        backgroundColor: Color.fromRGBO(64, 115, 235, 92)
       ),
+      backgroundColor: Colors.white,
       body: FutureBuilder(
         future: organization.getRead(user),
-        builder: (BuildContext context, AsyncSnapshot thread){
-          if(thread.connectionState==ConnectionState.waiting){
+        builder: (BuildContext context, AsyncSnapshot<bool> thread){
+          if(!thread.hasData){
             return Center(
                 child: Container(
                   color: Color.fromRGBO(255, 211, 109, 0.4),
@@ -45,213 +84,150 @@ class _TrelloTeamToGuildState extends State<TrelloTeamToGuild> {
             );
           }
           else{
-            print("Carregamento terminado");
-            print('Is guild Master? '+organization.isGuildMaster.toString());
-            if(organization.isGuildMaster) {
+            if(thread.data==true) {
               //Aqui sera mostrado a lista de Boards de uma TrelloOrganization e para cada Board serah possivel configurar uma nova Quest
               final List<Board> listboards = organization.getListBoards(
                   user.userKey);
               final guildDescription = TextEditingController();
-              String guildImage;
+              members = organization.getListMembersNames(args.user);
               String descripton;
-              int imgNumber;
               return Container(
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 30.0, vertical: 10.0),
-                        child: FlatButton(
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                  context,
-                                  TrelloTeamToGuildMembers.routeName,
-                                  arguments: TrelloTeamToGuildArgs(
-                                      user: user, organization: organization)
-                              );
-                            },
-                            color: Colors.amberAccent,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0),
+                  child:
+                  ListView(
+                    children: <Widget>[
+                      Container(
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                          child: ButtonTheme(
+                            minWidth: MediaQuery.of(context).size.width*0.85,
+                            height: 40.0,
+                            child: FlatButton(
+                                onPressed: () {
+                                  _showPopUpListMembers();
+                                },
+                                color: Colors.green,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                child: Text("Lista de membros", style: TextStyle(color: Colors.white))
                             ),
-                            child: Text(
-                                "Members", style: TextStyle(color: Colors.white))
-                        )
-                    ),
-                    ListView.builder(
-                        itemCount: listboards.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return boardViewFunction(
-                              context, listboards, index, user);
-                        }
-                    ),
-                    TextField(
-                      controller: guildDescription, //a descricao da Guilda esta em guildDescription.text
-                    ),
-                    Container(
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
-                        child: FlatButton(
-                            onPressed: (){
-                              Navigator.pushNamed(
-                                  context,
-                                  TrelloTeamToGuildImage.routeName,
-                                  arguments: guildImage
-                              );
-                            },
-                            color: Colors.amberAccent,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0),
+                          )
+                      ),
+
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: listboards.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return boardViewWidget(context, listboards, index, user);
+                          }
+                      ),
+
+                      Padding(
+                        padding: EdgeInsets.only(right: 10.0, left: 10.0, top: 10.0),
+                        child: TextFormField(
+                          autofocus: true,
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Entre com a descrição da Guilda'
+                          ),
+                          controller: myController,
+                        ),
+                      ),
+
+                      Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Align(
+                            alignment: Alignment.center,
+                            child: Text('Selecione a imagem para a Guilda', style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold))
+                        ),
+                      ),
+
+                      GridView.builder(
+                        shrinkWrap: true,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4,
+                        ),
+                        itemCount: _images.length,
+                        itemBuilder: (BuildContext context, int index){
+                          var color;
+                          if(index==imgNumber){
+                            color = Colors.green;
+                          }
+                          else{
+                            color = Colors.white;
+                          }
+                          return Container(
+                            child: FlatButton(
+                                onPressed: (){
+                                  setState(() {
+                                    imgNumber = index;
+                                  });
+                                }
                             ),
-                            child: Text("Select Guild image",
-                                style: TextStyle(color: Colors.white))
-                        )
-                    ),
-                    Container(
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 30.0, vertical: 10.0),
-                        child: FlatButton(
-                            onPressed: () {
-                              descripton = guildDescription.text;
-                              organization.configurateGuild(descripton, user, guildImage);
-                              Navigator.pop(context);
-                            },
-                            color: Colors.amberAccent,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              image: DecorationImage(
+                                image: AssetImage(_ImagesPath+_images[index]),
+                                fit: BoxFit.scaleDown,
+                              ),
+                              borderRadius: new BorderRadius.all(new Radius.circular(13.0)),
+                              border: new Border.all(
+                                color: color,
+                                width: 5.0,
+                              ),
                             ),
-                            child: Text("Done changes",
-                                style: TextStyle(color: Colors.white))
-                        )
-                    )
-                  ],
-                ),
+                          );
+                        },
+                      ),
+
+                      Container(/*AINDA NAO PODE SER CONFIGURADA A ROTINA AO SER PRESSIONADO O BOTAO*/
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 30.0, vertical: 10.0),
+                          child: FlatButton(
+                              onPressed: () {
+                                print(myController.text);
+                                //organization.configurateGuild(descripton, user, guildImage);
+                                Navigator.pop(context);
+                              },
+                              color: Colors.amberAccent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              child: Text("Aplicar as configurações", style: TextStyle(color: Colors.white))
+                          )
+                      ),
+                    ],
+                  )
               );
             }
+
             else{
               return Container(
                 child: Column(
                   children: <Widget>[
                     Align(
                         alignment: Alignment.centerLeft,
-                        child: Text('Voce nao eh admin desse Team no Trello', style: TextStyle(fontSize: 18.0))
+                        child: Text('Voce não é admin desse Team no Trello', style: TextStyle(fontSize: 18.0))
                     )
                   ],
                 ),
               );
             }
+
           }
         },
-      )
-    );
-  }
-}
-
-class TrelloTeamToGuildImage extends StatefulWidget {
-  static const routeName = 'TrelloTeamToGuildImage';
-  @override
-  _TrelloTeamToGuildImageState createState() => _TrelloTeamToGuildImageState();
-}
-
-class _TrelloTeamToGuildImageState extends State<TrelloTeamToGuildImage> {
-  @override
-  Widget build(BuildContext context) {
-    final ImagesPath = "/home/leon/Documentos/Unifesp/6 semestre/EngSoft/SW-Eng-Project/job_adventure/assets/images/GuildIcons";
-    final List<String> images = ["business-guild-shield.png", "guild1.png", "guild2.png", "guild3.jpg", "guild4.png", "Stark-icon.png"];
-    String guildImage = ModalRoute.of(context).settings.arguments;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Selecione a imagem para a Guilda"),
-      ),
-      body: Container(
-        child: Row(
-          children: <Widget>[
-            GridView.count(
-              crossAxisCount: 3,
-              children: List.generate(images.length, (index){
-                return GestureDetector(
-                  onTap: (){
-                    guildImage = ImagesPath + images[index];
-                  },
-                  child: Image.asset(ImagesPath+images[index]),
-                );
-              }),
-            ),
-            Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(
-                    horizontal: 30.0, vertical: 10.0),
-                child: FlatButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    color: Colors.amberAccent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    child: Text("Imagem selecionada",
-                        style: TextStyle(color: Colors.white))
-                )
-            )
-          ],
-        ),
       ),
     );
   }
 }
 
-
-class TrelloTeamToGuildMembersArgs{
-  User user;
-  organizationTrello organization;
-  TrelloTeamToGuildMembersArgs({this.user, this.organization});
+String removeBoardTrelloPresets(String title){
+  return title.replaceAll('QuadroCompartilhado', '');
 }
 
-class TrelloTeamToGuildMembers extends StatelessWidget {
-  static const routeName = 'ListMembersGuild';
-  @override
-  Widget build(BuildContext context) {
-    TrelloTeamToGuildArgs args = ModalRoute.of(context).settings.arguments;
-    organizationTrello organization = args.organization;
-    List<String> members = organization.getListMembers(args.user);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(organization.name + '- Members'),
-        backgroundColor: Color.fromRGBO(255, 211, 109, 0.4),
-      ),
-      body: ListView.builder(
-        itemCount: members.length,
-        itemBuilder: (BuildContext context, int index){
-          return Container(
-            width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-            child: Card(
-              elevation: 5.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(0.0),
-              ),
-              child: Column(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(members[index], style: TextStyle(fontSize: 15.0),)
-                  )
-                ],
-              ),
-            )
-          );
-        }
-      ),
-    );
-  }
-}
-
-
-
-Container boardViewFunction(context, List<Board> boards, int index, User user){
-  double c_width = MediaQuery.of(context).size.width*0.4;
+Container boardViewWidget(context, List<Board> boards, int index, User user){
+  double c_width = MediaQuery.of(context).size.width*0.60;
   return Container(
     width: MediaQuery.of(context).size.width,
     padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
@@ -264,12 +240,13 @@ Container boardViewFunction(context, List<Board> boards, int index, User user){
         child: Row(
           children: <Widget>[
             Container(
+              padding: EdgeInsets.all(12.0),
               width: c_width,
               child: Column(
                 children: <Widget>[
                   Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(boards[index].name, style: TextStyle(color: Colors.black, fontSize: 17.0, fontWeight: FontWeight.bold))
+                      child: Text(removeBoardTrelloPresets(boards[index].name), style: TextStyle(color: Colors.black, fontSize: 17.0, fontWeight: FontWeight.bold))
                   )
                 ],
               ),

@@ -132,7 +132,8 @@ class organizationTrello{
   bool _boardsIsLoad;
   bool _membersIsLoad;
   List<String> _questIDsConfigured;
-  List<String> _members;
+  List<String> _membersID;
+  List<String> _membersNames;
   List<Board> _boards;
 
   organizationTrello(String id, User user){
@@ -140,7 +141,8 @@ class organizationTrello{
     this.isGuildMaster = false;
     _boards = new List<Board>();
     _questIDsConfigured = new List<String>();
-    _members = new List<String>();
+    _membersID = new List<String>();
+    _membersNames = new List<String>();
     _boardsIsLoad = false;
     _membersIsLoad = false;
     _guildExists = false;
@@ -183,35 +185,50 @@ class organizationTrello{
       print('Atual membro: '+listIDMembers[i]['memberType']);
       final responsemember = await get('https://api.trello.com/1/members/'+listIDMembers[i]['idMember']+'?boardBackgrounds=none&boardsInvited_fields=name%2Cclosed%2CidOrganization%2Cpinned&boardStars=false&cards=none&customBoardBackgrounds=none&customEmoji=none&customStickers=none&fields=all&organizations=none&organization_fields=all&organization_paid_account=false&organizationsInvited=none&organizationsInvited_fields=all&paid_account=false&savedSearches=false&tokens=none&key='+APIKey+'&token='+user.userKey);
       var jsonresponse = json.decode(responsemember.body);
-      this._members.add(jsonresponse['username']);
+      this._membersID.add(jsonresponse['username']);
+      this._membersNames.add(jsonresponse['fullName']);
       print('carregado o membro: '+jsonresponse['username']);
 
       if(listIDMembers[i]['memberType']=='admin'){
         print('Um admin desse Team: '+jsonresponse['username']);
-        if(jsonresponse['username']==user.userName&&isGuildMaster==false)
+        if(jsonresponse['username']==user.userName&&isGuildMaster==false){
           this.isGuildMaster = true;
+          print("Voce eh admin desse Team");
+        }
       }
     }
     this._membersIsLoad = true;
   }
 
-  Future<void> getRead(User user) async{
-    if(_boardsIsLoad==false)
+  Future<bool> getRead(User user) async{
+    if(_boardsIsLoad==false){
       var thread1 = await _organizationBoards(user.userKey);
-    if(_membersIsLoad==false)
+    }
+    if(_membersIsLoad==false){
       var thread2 = await _getListMembers(user);
+    }
+    return this.isGuildMaster;
   }
 
   bool organizationAlreadyGuild(){
     return this._guildExists;
   }
 
-  List<String> getListMembers(User user){
+  List<String> getListMembersID(User user){
     if(_membersIsLoad){
-      return this._members;
+      return this._membersID;
     }
     else{
-      var thread = _getListMembers(user).then((str){return this._members;});
+      var thread = _getListMembers(user).then((str){return this._membersID;});
+    }
+  }
+
+  List<String> getListMembersNames(User user){
+    if(_membersIsLoad){
+      return this._membersNames;
+    }
+    else{
+      var thread = _getListMembers(user).then((str){return this._membersNames;});
     }
   }
 
@@ -294,15 +311,15 @@ class organizationTrello{
     }
     else {
       if (_membersIsLoad) {
-        insertGuild(this.name, description, user.name, guildImage, _members, _questIDsConfigured);
+        insertGuild(this.name, description, user.name, guildImage, _membersID, _questIDsConfigured);
       }
       else{
-        _getListMembers(user).then((str){insertGuild(this.name, description, user.name, guildImage, _members, _questIDsConfigured);});
+        _getListMembers(user).then((str){insertGuild(this.name, description, user.name, guildImage, _membersID, _questIDsConfigured);});
       }
       user.addGuild(this.name);
       user.save();
     }
-    _addListQuestInListUsers(_questIDsConfigured, _members);
+    _addListQuestInListUsers(_questIDsConfigured, _membersID);
     _questIDsConfigured = new List<String>();
   }
 }

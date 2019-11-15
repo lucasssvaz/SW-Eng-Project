@@ -60,6 +60,7 @@ flutter:
     - assets/images/
     - assets/images/items/
     - assets/images/GuildIcons/
+    - assets/images/GuildIcons/guild1.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

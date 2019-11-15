@@ -21,8 +21,6 @@ void main()=> runApp(MaterialApp(
     'profilescreen': (context) => ProfileScreen(),
     ExtractArgumentsScreen.routeName: (context) => new ExtractArgumentsScreen(),
     TrelloTeamToGuild.routeName: (context) => new TrelloTeamToGuild(),
-    TrelloTeamToGuildMembers.routeName: (context) => new TrelloTeamToGuildMembers(),
-    TrelloTeamToGuildImage.routeName: (context) => new TrelloTeamToGuildImage(),
   }
 ));
 
