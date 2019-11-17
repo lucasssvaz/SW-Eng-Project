@@ -5,9 +5,9 @@ import 'package:job_adventure/models/guild.dart';
 import 'package:job_adventure/models/TrelloOrganization.dart';
 
 import 'package:job_adventure/models/user.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:loading/indicator/ball_spin_fade_loader_indicator.dart';
 import 'package:loading/loading.dart';
+import 'package:job_adventure/Screens/TrelloTeamBoardToQuest.dart';
 
 class TrelloTeamToGuildArgs{
   organizationTrello organization;
@@ -118,7 +118,7 @@ class _TrelloTeamToGuildState extends State<TrelloTeamToGuild> {
                           shrinkWrap: true,
                           itemCount: listboards.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return boardViewWidget(context, listboards, index, user);
+                            return boardViewWidget(context, listboards, index, user, organization);
                           }
                       ),
 
@@ -180,14 +180,14 @@ class _TrelloTeamToGuildState extends State<TrelloTeamToGuild> {
                         },
                       ),
 
-                      Container(/*AINDA NAO PODE SER CONFIGURADA A ROTINA AO SER PRESSIONADO O BOTAO*/
+                      Container(
                           alignment: Alignment.center,
                           padding: EdgeInsets.symmetric(
                               horizontal: 30.0, vertical: 10.0),
                           child: FlatButton(
                               onPressed: () {
                                 print(myController.text);
-                                //organization.configurateGuild(descripton, user, guildImage);
+                                organization.configurateGuild(myController.text.toString(), user, _ImagesPath+_images[imgNumber]);
                                 Navigator.pop(context);
                               },
                               color: Colors.amberAccent,
@@ -226,7 +226,7 @@ String removeBoardTrelloPresets(String title){
   return title.replaceAll('QuadroCompartilhado', '');
 }
 
-Container boardViewWidget(context, List<Board> boards, int index, User user){
+Container boardViewWidget(context, List<Board> boards, int index, User user, organizationTrello organization){
   double c_width = MediaQuery.of(context).size.width*0.60;
   return Container(
     width: MediaQuery.of(context).size.width,
@@ -256,12 +256,15 @@ Container boardViewWidget(context, List<Board> boards, int index, User user){
               padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
               child: FlatButton(
                   onPressed: (){
-                    /*LUIZ COLOCAR AQUI A SUA CHAMADA DE PAGINA, ACREDITO QUE PRECISARA DE ARGUMENTOS*/
-                    /*Navigator.pushNamed(
-                        context,
-                        TrelloBoardToQuest.routeName,
-                        arguments: TrelloBoardToQuestArgs()
-                    );*/
+                    Navigator.of(context).pushNamed(
+                        TrelloTeamBoardToQuest.routeName,
+                        arguments: TrelloTeamBoardToQuestArgs(
+                          user: user,
+                          organization: organization,
+                          boardIndex: index,
+                          boardName: boards[index].name
+                        )
+                    );
                   },
                   color: Colors.amberAccent,
                   shape: RoundedRectangleBorder(

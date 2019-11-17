@@ -14,7 +14,7 @@ class ComingSoonPage extends StatelessWidget {
     final User user = ModalRoute.of(context).settings.arguments;
     organizationTrello organization = new organizationTrello("5da4c6252f69cd5be06ce1d9", user);
     //print('CommingSoon username: '+username);
-    return GestureDetector(
+    /*return GestureDetector(
       child: Text("Test TeamGuild"),
       onTap: (){
         TrelloTeamToGuildArgs args = new TrelloTeamToGuildArgs(user: user, organization: organization);
@@ -24,8 +24,8 @@ class ComingSoonPage extends StatelessWidget {
           arguments: args
         );
       },
-    );
-    /*return new Scaffold(
+    );*/
+    return new Scaffold(
 
         backgroundColor:  Color.fromRGBO(255, 211, 109, 0.4),
         
@@ -50,12 +50,12 @@ class ComingSoonPage extends StatelessWidget {
                   height: 280.0,
                 ),
 
-                Text('We\'re writing a world for you ${value.toString()}', textScaleFactor: 1.5, textAlign: TextAlign.center,),
+                Text('Were writing a world for you ${value.toString()}', textScaleFactor: 1.5, textAlign: TextAlign.center,),
                 
                 ],
           )
         ),
       )
-    );*/
+    );
   }
 }

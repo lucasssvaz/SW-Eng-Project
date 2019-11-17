@@ -152,6 +152,8 @@ class User{
   addGuild(String guildName){
     if(isGuildMaster==false)
       isGuildMaster = true;
+    if(guildNameGuildMaster==null)
+      guildNameGuildMaster = new List<String>();
     guildNameGuildMaster.add(guildName);
   }
 
