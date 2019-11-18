@@ -10,21 +10,25 @@ import 'package:job_adventure/models/TrelloUtility.dart';
 import 'package:job_adventure/models/quest.dart';
 import 'package:job_adventure/Screens/TrelloTeamToGuild.dart';
 import 'package:job_adventure/Screens/TrelloTeamBoardToQuest.dart';
+import 'package:preferences/preferences.dart';
 
-void main()=> runApp(MaterialApp(
-  title: 'Job Adventure',
-  initialRoute: 'loginScreen',
-  debugShowCheckedModeBanner: false,
-  routes:{
-    'loginScreen': (context) => LoginScreen(),
-    'NavigationMenu': (context) => NavigationMenu(),
-    '/webview': (context) => TrelloLoginScreen(),
-    'profilescreen': (context) => ProfileScreen(),
-    ExtractArgumentsScreen.routeName: (context) => ExtractArgumentsScreen(),
-    TrelloTeamToGuild.routeName: (context) => TrelloTeamToGuild(),
-    TrelloTeamBoardToQuest.routeName: (context) => TrelloTeamBoardToQuest(),
-  }
-));
+void main() async{
+    await PrefService.init(prefix: 'pref_');
+    runApp(MaterialApp(
+        title: 'Job Adventure',
+        initialRoute: 'loginScreen',
+        debugShowCheckedModeBanner: false,
+        routes:{
+            'loginScreen': (context) => LoginScreen(),
+            'NavigationMenu': (context) => NavigationMenu(),
+            '/webview': (context) => TrelloLoginScreen(),
+            'profilescreen': (context) => ProfileScreen(),
+            ExtractArgumentsScreen.routeName: (context) => ExtractArgumentsScreen(),
+            TrelloTeamToGuild.routeName: (context) => TrelloTeamToGuild(),
+            TrelloTeamBoardToQuest.routeName: (context) => TrelloTeamBoardToQuest(),
+        }
+    ));
+}
 
 /*
 {

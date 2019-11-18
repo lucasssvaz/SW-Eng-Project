@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:job_adventure/Screens/MainMenu.dart';
 import 'package:job_adventure/Screens/QuestPage.dart';
 import 'package:job_adventure/Screens/comingsoonpage.dart';
+import 'package:job_adventure/Screens/SettingsPage.dart';
 import 'package:job_adventure/models/user.dart';
 
 class NavigationMenu extends StatefulWidget {
@@ -20,7 +21,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
     QuestPage(),
     //ProfileScreen(),
     ComingSoonPage(),
-    ComingSoonPage()
+    SettingsPage()
   ];
   void _onItemTapped(int index){
     setState(() {
