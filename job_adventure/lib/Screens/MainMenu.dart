@@ -7,11 +7,11 @@ import 'package:job_adventure/models/user.dart';
 class IntereactableWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final User imagesuser = ModalRoute.of(context).settings.arguments;
+    final User user = ModalRoute.of(context).settings.arguments;
     return new GestureDetector(
       child: new InfoWidget(),
       onTap: () {
-        /*Navigator.pushNamed(context, 'profilescreen', arguments: user);*/
+        Navigator.pushNamed(context, 'profilescreen', arguments: user);
       },
     );
   }
