@@ -29,6 +29,19 @@ class SettingsPage extends StatelessWidget {
             print('Logging Out...');
           }
         ),
+        PreferenceTitle('About'),
+        PreferenceText(
+          'Help',
+          onTap: (){
+            print('');
+          }
+        ),
+        PreferenceText(
+          'Contact us',
+          onTap: (){
+            print('');
+          }
+        ),
       ]),
     );
   }
