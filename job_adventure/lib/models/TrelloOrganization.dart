@@ -83,7 +83,7 @@ class Board {
     }
   }
 
-  toQuest(List<int> goalHours, List<int> goalXp, int rewardItemId,
+  toQuest(String guildName, List<int> goalHours, List<int> goalXp, int rewardItemId,
       int imgNumber, int xp, String tokenUser) {
     if (this._LoadCards) {
       Quest quest = Quest(
@@ -101,12 +101,13 @@ class Board {
       quest.goalXp = goalXp;
       quest.rewardItemId = rewardItemId;
       quest.imgNumber = imgNumber;
+      quest.guildName = guildName;
       quest.xp = xp;
       print('Salvando');
       quest.save();
     } else {
       _findAllCards(tokenUser).then((str) {
-        this.toQuest(goalHours, goalXp, rewardItemId, imgNumber, xp, tokenUser);
+        this.toQuest(guildName, goalHours, goalXp, rewardItemId, imgNumber, xp, tokenUser);
       });
     }
   }
@@ -320,7 +321,7 @@ class organizationTrello {
     if (_boardsIsLoad) {
       if (index < _boards.length) {
         var thread = await _boards[index].boardyAlreadyQuest();
-        _boards[index].toQuest(goalHours, goalXp, rewardItemId, imgNumber, xp, tokenUser);
+        _boards[index].toQuest(this.name, goalHours, goalXp, rewardItemId, imgNumber, xp, tokenUser);
         _questIDsConfigured.add(_boards[index].id);
       }
     } else {
@@ -390,18 +391,12 @@ Future<void> _addListQuestInListUsers(
 }
 
 Future<List<organizationTrello>> getListOrganizations(User user) async {
-  String urlRequest = "https://api.trello.com/1/members/me/?key=" +
-      APIKey +
-      "&token=" +
-      user.userKey;
-  var request = await get(urlRequest);
-  List<String> organizationIDs =
-      (json.decode(request.body))['idOrganizations'].cast<String>();
+  String urlRequest = "https://api.trello.com/1/members/me/?key=" + APIKey + "&token=" + user.userKey;
+  List<String> organizationIDs = (json.decode((await get(urlRequest)).body))['idOrganizations'].cast<String>();
   List<organizationTrello> list = new List<organizationTrello>();
   for (int i = 0; i < organizationIDs.length; i++) {
-    organizationTrello organization =
-        new organizationTrello(organizationIDs[i], user);
-    list.add(organization);
+    list.add(new organizationTrello(organizationIDs[i], user));
   }
+  await new Future.delayed(const Duration(seconds : 1));
   return list;
 }

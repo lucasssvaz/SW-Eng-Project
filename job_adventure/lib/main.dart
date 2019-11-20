@@ -10,6 +10,7 @@ import 'package:job_adventure/models/TrelloUtility.dart';
 import 'package:job_adventure/models/quest.dart';
 import 'package:job_adventure/Screens/TrelloTeamToGuild.dart';
 import 'package:job_adventure/Screens/TrelloTeamBoardToQuest.dart';
+import 'package:job_adventure/Screens/TrelloTeams.dart';
 
 void main()=> runApp(MaterialApp(
   title: 'Job Adventure',
@@ -23,6 +24,7 @@ void main()=> runApp(MaterialApp(
     ExtractArgumentsScreen.routeName: (context) => ExtractArgumentsScreen(),
     TrelloTeamToGuild.routeName: (context) => TrelloTeamToGuild(),
     TrelloTeamBoardToQuest.routeName: (context) => TrelloTeamBoardToQuest(),
+    TrelloTeams.routeName: (context) => TrelloTeams(),
   }
 ));
 

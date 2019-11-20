@@ -209,8 +209,8 @@ class _TrelloTeamBoardToQuestState extends State<TrelloTeamBoardToQuest> {
                           else
                             xp = 0;
                           organization.BoardToQuest(boardIndex, goalHours, goalXp, imgItemNumber, imgQuestNumber, xp, user.userKey);
-                          //Navigator.pop(context); --- NAO ESTA FUNCIONANDO
                         }
+                        Navigator.pop(context);
                       },
                       color: Colors.amberAccent,
                       shape: RoundedRectangleBorder(
