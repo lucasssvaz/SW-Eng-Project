@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:job_adventure/models/user.dart';
 
 // Uso: só chamar GuildList()
 
 class GuildList extends StatelessWidget{
   Widget build(BuildContext context){
+    final User user = ModalRoute.of(context).settings.arguments;
     return new StreamBuilder(
-      stream: Firestore.instance.collection('Users').document('vlademircelsodossantosjunior').collection('Guilds').snapshots(),
+      stream: Firestore.instance.collection('Users').document(user.userName).collection('Guilds').snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
         if (!snapshot.hasData) return const Text('Loading...');
         final int messageCount = snapshot.data.documents.length;
@@ -19,11 +21,15 @@ class GuildList extends StatelessWidget{
             String guildName = message1 != null ? message1.toString() : '<No message retrieved>';
             dynamic message2 = document['ImagePath'];
             String imagePath = message2 != null ? message2.toString() : '<No message retrieved>';
-            return new Card( 
+            return new Card(
+              elevation: 5.0,
               child: GestureDetector(
-                child: ListTile(
-                  title: Text(guildName),
-                  leading: ImageIcon(new AssetImage(imagePath)),
+                child: Row(
+                  children: <Widget>[
+                    new Image.asset(imagePath, width: 50.0,height: 50.0),
+                    new Padding(padding: EdgeInsets.only(right: 10)),
+                    new Text(guildName)
+                  ]
                 ),
                 onTap: (){
                   // Colocar aqui a chamada da página da guilda
