@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart';
 import 'package:job_adventure/models/TrelloBoard.dart';
 import 'package:job_adventure/models/TrelloUtility.dart';
 import 'package:job_adventure/models/user.dart';
 import 'package:job_adventure/Functions/guildFunctions.dart';
+import 'package:path_provider/path_provider.dart';
 
 const String APIKey = "57a893b02ea2046b82ac861766a34bed";
 
@@ -152,6 +154,50 @@ class Quest {
 
 }
 
+class CounterGoalTimer{
+  String arqname;
+  int initial_timer;
+  DateTime systime;
+  CounterGoalTimer({this.arqname}){
+    systime = DateTime.now();
+    initial_timer = 0;
+  }
+
+  int getTime(){
+    return (DateTime.now().difference(systime).inSeconds+initial_timer);
+  }
+
+  Future<int> getPreviousTimer() async {
+    this.initial_timer = await _readCounter();
+    return this.initial_timer;
+  }
+
+  Future<void> saveTime() async{
+    final file = await _localFile;
+    file.writeAsString(getTime().toString());
+  }
+
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+    return directory.path;
+  }
+
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    return File('$path'+arqname+'.txt');
+  }
+
+  Future<int> _readCounter() async {
+    try {
+      final file = await _localFile;
+      String contents = await file.readAsString();
+
+      return int.parse(contents);
+    } catch (e) {
+      return 0;
+    }
+  }
+}
 
 //LEON -- VOU USAR ESSAS FUNCOES PRA DAR UPDATE NAS BOARDS E CARDS
 Future<void> chanceCardStats(String cardID, String tokenUser, bool set) async{

@@ -28,7 +28,7 @@ class ComingSoonPage extends StatelessWidget {
       },
     );*/
 
-    
+
     return new Scaffold(
 
         backgroundColor:  Color.fromRGBO(255, 211, 109, 0.4),

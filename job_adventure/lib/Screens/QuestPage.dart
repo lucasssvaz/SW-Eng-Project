@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:loading/indicator/ball_spin_fade_loader_indicator.dart';
 import 'package:loading/loading.dart';
 
@@ -150,6 +151,12 @@ class ExtractArgumentsScreen extends StatefulWidget {
 }
 
 class _ExtractArgumentsScreenState extends State<ExtractArgumentsScreen> {
+  int currentTask;
+  CounterGoalTimer relogioAtual;
+  _ExtractArgumentsScreenState(){
+    currentTask = -1;
+  }
+
   @override
   Widget build(BuildContext context) {
     final ArgumentGoalPage args = ModalRoute.of(context).settings.arguments;
@@ -235,6 +242,7 @@ class _ExtractArgumentsScreenState extends State<ExtractArgumentsScreen> {
               itemCount: quest.goal.length,
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index){
+                var iconclock;
                 var color = Colors.white;
                 var text_style;
                 var icon;
@@ -245,6 +253,12 @@ class _ExtractArgumentsScreenState extends State<ExtractArgumentsScreen> {
                 else {
                   text_style = TextStyle(color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold);
                   icon = Icon(Icons.check_circle, color: Colors.orange, size: 32.0,);
+                }
+                if(currentTask==index){
+                  iconclock = Icon(Icons.timer, color: Colors.green, size: 20.0);
+                }
+                else{
+                  iconclock = Icon(Icons.timer, color: Colors.red, size: 20.0);
                 }
                 double c_width = MediaQuery.of(context).size.width*0.6;
                 return Container(
@@ -293,7 +307,35 @@ class _ExtractArgumentsScreenState extends State<ExtractArgumentsScreen> {
                                           Padding(padding: EdgeInsets.all(5.0)),
                                           Center(child: Icon(Icons.adjust, size: 10.0,)),
                                           Padding(padding: EdgeInsets.all(0.5)),
-                                          Text("XP: "+quest.goalXp[index].toString())
+                                          Text("XP: "+quest.goalXp[index].toString()),
+                                          IconButton(
+                                            icon: iconclock,
+                                            onPressed: (){
+                                              if(quest.goalStats[index]==false){
+                                                if(currentTask==-1){
+                                                  setState(() {
+                                                    currentTask = index;
+                                                    relogioAtual = new CounterGoalTimer(arqname: quest.goalID[index]);
+                                                    relogioAtual.getPreviousTimer();
+                                                  });
+                                                }
+                                                else if(index==currentTask){
+                                                  relogioAtual.saveTime();
+                                                  setState(() {
+                                                    currentTask = -1;
+                                                  });
+                                                }
+                                                else{
+                                                  relogioAtual.saveTime();
+                                                  setState(() {
+                                                    currentTask = index;
+                                                    relogioAtual = new CounterGoalTimer(arqname: quest.goalID[index]);
+                                                    relogioAtual.getPreviousTimer();
+                                                  });
+                                                }
+                                              }
+                                            },
+                                          )
                                         ],
                                       )
                                     ]
@@ -303,14 +345,38 @@ class _ExtractArgumentsScreenState extends State<ExtractArgumentsScreen> {
                                   icon: icon,
                                   onPressed: (){
                                     setState(() {
+                                      if(quest.goalStats[index]==false){
+                                        if(currentTask==index){
+                                          saveGoalTimerDatabaseAndStats(quest, index, relogioAtual.getTime(), true);
+                                          relogioAtual.saveTime();
+                                        }
+                                        else{
+                                          var savedTime = new CounterGoalTimer(arqname: quest.goalID[index]);
+                                          savedTime.getPreviousTimer().then((str){
+                                            saveGoalTimerDatabaseAndStats(quest, index, savedTime.initial_timer, true);
+                                          });
+                                        }
+                                      }
+                                      else{
+                                        if(currentTask==index){
+                                          saveGoalTimerDatabaseAndStats(quest, index, relogioAtual.getTime(), false);
+                                          relogioAtual.saveTime();
+                                        }
+                                        else{
+                                          var savedTime = new CounterGoalTimer(arqname: quest.goalID[index]);
+                                          savedTime.getPreviousTimer().then((str){
+                                            saveGoalTimerDatabaseAndStats(quest, index, savedTime.initial_timer, false);
+                                          });
+                                        }
+                                      }
                                       if (quest.goalStats[index] == true) {
                                         quest.goalStats[index] = false;
-                                        quest.save();
                                         changeQuestGoal(user, quest, index, false);
                                       }
                                       else {
+                                        if(currentTask==index)
+                                          currentTask = -1;
                                         quest.goalStats[index] = true;
-                                        quest.save();
                                         changeQuestGoal(user, quest, index, true);
                                       }
                                     });
@@ -328,4 +394,27 @@ class _ExtractArgumentsScreenState extends State<ExtractArgumentsScreen> {
       )
     );
   }
+}
+
+void saveGoalTimerDatabaseAndStats(Quest quest, int goalIndex, int seconds, bool stats) async{
+  final ref = await Firestore.instance.collection('Quest').document(quest.id);
+  var questDatabase = await ref.get();
+  List<double> listHours;
+  List<bool> goalStats;
+
+  if(questDatabase.data['goal_stats']!=null)
+    goalStats = questDatabase.data['goal_stats'].cast<bool>();
+  else
+    goalStats = new List<bool>(quest.goal.length);
+
+  if(questDatabase.data['goal_done_hours']!=null)
+    listHours = questDatabase.data['goal_done_hours'].cast<double>();
+  else
+    listHours = new List<double>(quest.goal.length);
+
+  listHours[goalIndex] = (seconds/3600);
+  goalStats[goalIndex] = stats;
+  questDatabase.data['goal_done_hours'] = listHours;
+  questDatabase.data['goal_stats'] = goalStats;
+  await ref.setData(questDatabase.data);
 }
