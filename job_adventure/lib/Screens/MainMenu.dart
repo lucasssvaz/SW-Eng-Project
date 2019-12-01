@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:job_adventure/Screens/QuestPage.dart';
+import 'package:job_adventure/Widgets/ItemList.dart';
+import 'package:job_adventure/Widgets/QuestListReduced.dart';
 import 'package:job_adventure/models/user.dart';
 
 //This class is responsable for making the topbar (infowdget)
@@ -21,6 +24,7 @@ class IntereactableWidget extends StatelessWidget {
 class InfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final User user = ModalRoute.of(context).settings.arguments;
     return new Padding(
         //Padding for the top bar
         padding: EdgeInsets.all(10),
@@ -46,10 +50,11 @@ class InfoWidget extends StatelessWidget {
                     padding: EdgeInsets.only(left: 20),
                     child: Column(
                         // Column beside the picture, decide later what will be on it
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text("Info 1", style: TextStyle(fontSize: 20)),
-                          Text("Info 2", style: TextStyle(fontSize: 20)),
-                          Text("Info 3", style: TextStyle(fontSize: 20))
+                          Text(user.name, style: TextStyle(fontSize: 20)),
+                          Text("Lvl: " + user.level.toString(),style: TextStyle(fontSize: 13)),
+                          Text("xp: " + user.xp.toString(), style: TextStyle(fontSize: 13))
                         ]))
               ],
             )));
@@ -81,19 +86,8 @@ class MainMenu extends StatelessWidget {
         child: new IntereactableWidget()
       ),
       Expanded(
-          //List of tasks
-          child: ListView.separated(
-        padding: EdgeInsets.all(10),
-        itemCount: taskSamples.length,
-        itemBuilder: (BuildContext context, int index) {
-          //Later change item builder to get the tasks from trello
-          return Container(
-              height: 50,
-              color: Color.fromRGBO(255, 211, 109, 0.4),
-              child: Center(child: Text('${taskSamples[index]}')));
-        },
-        separatorBuilder: (BuildContext context, int index) => const Divider(),
-      ))
+        child: QuestListReduced()
+      )
     ]));
   }
 }
