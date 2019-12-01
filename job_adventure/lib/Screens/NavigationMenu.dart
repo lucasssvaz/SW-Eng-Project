@@ -4,6 +4,7 @@ import 'package:job_adventure/Screens/QuestPage.dart';
 import 'package:job_adventure/Screens/comingsoonpage.dart';
 import 'package:job_adventure/Widgets/GuildList.dart';
 import 'package:job_adventure/Widgets/GuildMemberList.dart';
+import 'package:job_adventure/Screens/GuildPage.dart';
 import 'package:job_adventure/models/user.dart';
 
 class NavigationMenu extends StatefulWidget {
@@ -21,7 +22,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
     MainMenu(),
     QuestPage(),
     //ProfileScreen(),
-    GuildList(),
+    GuildPage(),
     ComingSoonPage()
   ];
   void _onItemTapped(int index){
