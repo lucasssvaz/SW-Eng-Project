@@ -83,10 +83,10 @@ class ItemList extends StatelessWidget{
                                       padding: EdgeInsets.only(left: 15),
                                       child: Column(
                                         children: <Widget>[
-                                          Text(itemName,style: TextStyle(fontSize: 30,fontFamily: 'Old London')),
+                                          Text(itemName,style: TextStyle(fontSize: 20)),
                                           Padding(
                                             padding: EdgeInsets.only(top: 2.0),
-                                            child: Text('Lvl $itemLevel',style: TextStyle(fontSize: 15,color:Colors.black.withOpacity(0.6),fontFamily: 'Old London'))
+                                            child: Text('Lvl $itemLevel',style: TextStyle(fontSize: 15,color:Colors.black.withOpacity(0.6)))
                                           )
                                         ],
                                       )
@@ -95,7 +95,7 @@ class ItemList extends StatelessWidget{
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(top: 15.0,left:8.0,right:3.0),
-                                  child: new Text(itemDescription,style: TextStyle(fontFamily: 'Old London',fontSize: 20))
+                                  child: new Text(itemDescription,style: TextStyle(fontSize: 15))
                                 )
                               ],
                             )
