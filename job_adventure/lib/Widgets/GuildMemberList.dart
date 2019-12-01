@@ -21,15 +21,28 @@ class GuildMemberList extends StatelessWidget{
             String userName = message1 != null ? message1.toString() : '<No message retrieved>';
             dynamic message2 = document['memberXP'];
             String xp = message2 != null ? message2.toString() : '<No message retrieved>';
+            Color starColor;
+            if(index == 0) starColor = Colors.orange[400];
+            else if(index == 1) starColor = Colors.grey[400];
+            else if(index == 2) starColor = Colors.brown[300];
+            else starColor = Colors.blue[500];
             return new Card(
-              child: Row(
-                children: <Widget>[
-                  new Text((index+1).toString()),
-                  new Text(userName),
-                  new Text(xp.toString())
-                ],
-              )
-            );
+              elevation: 5.0,
+              child: 
+                Container(
+                  padding: EdgeInsets.all(8.0),
+                  child: Row(
+                    children: <Widget>[
+                      new CircleAvatar(child: new Text((index+1).toString())),
+                      new Padding(padding: EdgeInsets.only(right: 10)),
+                      new Text(userName),
+                      new Spacer(),
+                      new Icon(Icons.star,color: starColor),
+                      new Text(xp.toString())
+                    ],
+                  )
+                )
+              );
           }
         );
       }
