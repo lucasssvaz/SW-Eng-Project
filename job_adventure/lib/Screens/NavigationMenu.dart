@@ -14,6 +14,7 @@ class NavigationMenu extends StatefulWidget {
 
   @override
   _NavigationMenuState createState() => _NavigationMenuState();
+
 }
 
 class _NavigationMenuState extends State<NavigationMenu> {
@@ -30,6 +31,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
     setState(() {
       _selectedIndex = index;
     });
+
   }
 
   @override
