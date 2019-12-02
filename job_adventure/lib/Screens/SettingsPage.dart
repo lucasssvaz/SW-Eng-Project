@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:job_adventure/Screens/NavigationMenu.dart';
 import 'package:preferences/preferences.dart';
-
-void LogOut(){
-
+/*
+void logout() {
+  print('Logging Out...');
+  Navigator.popUntil(context, ModalRoute.withName('/loginScreen'));
 }
-
+*/
 class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,9 @@ class SettingsPage extends StatelessWidget {
         PreferenceText(
           'Log Out',
           onTap: (){
-            print('Logging Out...');
+            Navigator.pop(context);
+            Navigator.pop(context);
+
           }
         ),
         PreferenceTitle('About'),
