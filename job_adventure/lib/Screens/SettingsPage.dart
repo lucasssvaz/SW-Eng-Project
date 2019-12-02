@@ -10,7 +10,7 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Scaffold(
       body: PreferencePage([
-        PreferenceTitle('Personalization'),
+        PreferenceTitle('Personalization (WIP)'),
         RadioPreference(
           'Light Theme',
           'light',
