@@ -31,7 +31,7 @@ void insertItem(String userID, String itemID){
     dynamic itemNameMessage = ds['Name'];
     String itemName = itemNameMessage != null? itemNameMessage.toString() : '<No message retrieved>';
     dynamic itemDescriptionMessage = ds['Description'];
-    String itemDescription = itemDescriptionMessage != null? itemNameMessage.toString() : '<No message retrieved>';
+    String itemDescription = itemDescriptionMessage != null? itemDescriptionMessage.toString() : '<No message retrieved>';
     dynamic itemLevelMessage = ds['Lvl'];
     String itemLevel = itemNameMessage != null? itemLevelMessage.toString() : '<No message retrieved>';
     dynamic itemPathMessage = ds['ImagePath'];
@@ -43,7 +43,7 @@ void insertItem(String userID, String itemID){
 class ItemList extends StatelessWidget{
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>( 
-      stream: Firestore.instance.collection('Users').document('vlademircelsodossantosjunior').collection('Items').snapshots(), 
+      stream: Firestore.instance.collection('Users').document('vlademircelsodossantosjunior').collection('Items').snapshots(), //Replace with user ID
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (!snapshot.hasData) return const Text('Loading...');
         final int messageCount = snapshot.data.documents.length;
@@ -83,10 +83,10 @@ class ItemList extends StatelessWidget{
                                       padding: EdgeInsets.only(left: 15),
                                       child: Column(
                                         children: <Widget>[
-                                          Text(itemName,style: TextStyle(fontSize: 30,fontFamily: 'Old London')),
+                                          Text(itemName,style: TextStyle(fontSize: 20)),
                                           Padding(
                                             padding: EdgeInsets.only(top: 2.0),
-                                            child: Text('Lvl $itemLevel',style: TextStyle(fontSize: 15,color:Colors.black.withOpacity(0.6),fontFamily: 'Old London'))
+                                            child: Text('Lvl $itemLevel',style: TextStyle(fontSize: 15,color:Colors.black.withOpacity(0.6)))
                                           )
                                         ],
                                       )
@@ -95,7 +95,7 @@ class ItemList extends StatelessWidget{
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(top: 15.0,left:8.0,right:3.0),
-                                  child: new Text(itemDescription,style: TextStyle(fontFamily: 'Old London',fontSize: 20))
+                                  child: new Text(itemDescription,style: TextStyle(fontSize: 15))
                                 )
                               ],
                             )

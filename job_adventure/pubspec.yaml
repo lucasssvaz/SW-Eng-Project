@@ -32,10 +32,13 @@ dependencies:
   flutter_secure_storage: ^3.3.1+1
   percent_indicator: ^2.1.1+1
   loading: ^1.0.1
+  preferences: ^5.0.2
+  path_provider: ^1.4.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
   flutter_launcher_icons: "^0.7.3"
 
 flutter_icons:
@@ -58,6 +61,8 @@ flutter:
   assets:
     - assets/images/
     - assets/images/items/
+    - assets/images/GuildIcons/
+    - assets/images/GuildIcons/guild1.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

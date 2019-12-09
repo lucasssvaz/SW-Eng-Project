@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:job_adventure/Screens/MainMenu.dart';
 import 'package:job_adventure/Screens/QuestPage.dart';
 import 'package:job_adventure/Screens/comingsoonpage.dart';
+import 'package:job_adventure/Widgets/GuildList.dart';
+import 'package:job_adventure/Widgets/GuildMemberList.dart';
+import 'package:job_adventure/Screens/GuildPage.dart';
+import 'package:job_adventure/Screens/SettingsPage.dart';
 import 'package:job_adventure/models/user.dart';
 
 class NavigationMenu extends StatefulWidget {
@@ -10,6 +14,7 @@ class NavigationMenu extends StatefulWidget {
 
   @override
   _NavigationMenuState createState() => _NavigationMenuState();
+
 }
 
 class _NavigationMenuState extends State<NavigationMenu> {
@@ -19,13 +24,14 @@ class _NavigationMenuState extends State<NavigationMenu> {
     MainMenu(),
     QuestPage(),
     //ProfileScreen(),
-    ComingSoonPage(),
-    ComingSoonPage()
+    GuildPage(),
+    SettingsPage()
   ];
   void _onItemTapped(int index){
     setState(() {
       _selectedIndex = index;
     });
+
   }
 
   @override

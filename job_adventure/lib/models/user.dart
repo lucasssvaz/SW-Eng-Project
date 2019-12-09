@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:job_adventure/models/TrelloUtility.dart';
 import 'package:job_adventure/models/quest.dart';
 import 'package:job_adventure/models/TrelloBoard.dart';
 
@@ -13,20 +14,24 @@ final storage = new FlutterSecureStorage();
 //to extract informations of trelloUser account
 
 Future<User> initialRoute(String trelloKey) async{
-
+  print("Key do trello: "+trelloKey);
   final response = await get("https://api.trello.com/1/members/me/?key="+APIKey+"&token="+trelloKey);
   var jsonresponse = json.decode(response.body);
 
+  TrelloUtility myUtility = new TrelloUtility(trelloKey);
+  List<Quest> AllQuests = await myUtility.InitialTrelloUtility(true);
+
+/*
   TrelloBoards UserBoards = new TrelloBoards(trelloKey);
   await UserBoards.FindAllBoards(trelloKey);
+*/
 
-  List<String> quests = new List<String>();
+  List<String> quests = [];
 
-  for(int i = 0; i < UserBoards.boards.length; i++)
+  for(int i = 0; i < AllQuests.length; i++)
   {
-    Quest aux = UserBoards.boards[i].ToQuest();
+    Quest aux = AllQuests[i];
     quests.add(aux.id);
-    aux.save();
   }
 
   User user =  User(
@@ -39,12 +44,13 @@ Future<User> initialRoute(String trelloKey) async{
     userKey: trelloKey,
     isAdmin: false,
     isGuildMaster: false,
-    guildName: null,
+    guildNameGuildMaster: null,
     isAdventure: true,
     adminName: null,
     teamName: null,
     questID: quests
   );
+  user.MyUtility = myUtility;
   return user;
 }
 
@@ -60,11 +66,12 @@ class User{
   String userKey;
   bool isAdmin;
   bool isGuildMaster;
-  String guildName;
+  List<String> guildNameGuildMaster;
   bool isAdventure;
   String adminName;
   String teamName;
   List<String> questID;
+  TrelloUtility MyUtility;
 
   User({this.userName,
   this.level,
@@ -75,7 +82,7 @@ class User{
   this.userKey,
   this.isAdmin,
   this.isGuildMaster,
-  this.guildName,
+  this.guildNameGuildMaster,
   this.isAdventure,
   this.adminName,
   this.teamName,
@@ -142,6 +149,14 @@ class User{
     }
   }
 
+  addGuild(String guildName){
+    if(isGuildMaster==false)
+      isGuildMaster = true;
+    if(guildNameGuildMaster==null)
+      guildNameGuildMaster = new List<String>();
+    guildNameGuildMaster.add(guildName);
+  }
+
   chanceAvatarUrl(int i){//Vet indice image in our list
   }
 
@@ -155,25 +170,8 @@ class User{
         objUser.isAdmin = true;
         objUser.isAdventure = false;
         objUser.isGuildMaster = false;
-        objUser.guildName = null;
+        objUser.guildNameGuildMaster = null;
         objUser.questID = null;
-        objUser.adminName = this.name;
-        objUser.save();
-      });
-    }
-  }
-
-  setGuild(String userName, String guildName){
-    if(this.isAdmin==true) {
-      var userGet = Firestore.instance.collection('Users')
-          .document(userName)
-          .get();
-      userGet.then((DocumentSnapshot doc) {
-        User objUser = User.fromJson(doc.data);
-        objUser.isAdmin = false;
-        objUser.isAdventure = false;
-        objUser.isGuildMaster = true;
-        objUser.guildName = guildName;
         objUser.adminName = this.name;
         objUser.save();
       });
@@ -195,7 +193,7 @@ class User{
     this.userKey = json['user_key'];
     this.isAdmin = json['is_admin'];
     this.isGuildMaster = json['is_guild_master'];
-    this.guildName = json['guild_name'];
+    this.guildNameGuildMaster = json['guild_name'].cast<String>();
     this.isAdventure = json['is_adventure'];
     this.adminName = json['admin_name'];
     this.teamName = json['team_name'];
@@ -211,7 +209,7 @@ class User{
     userKey = json['user_key'];
     isAdmin = json['is_admin'];
     isGuildMaster = json['is_guild_master'];
-    guildName = json['guild_name'];
+    guildNameGuildMaster = json['guild_name'].cast<String>();
     isAdventure = json['is_adventure'];
     adminName = json['admin_name'];
     teamName = json['team_name'];
@@ -228,7 +226,7 @@ class User{
     data['user_key'] = this.userKey;
     data['is_admin'] = this.isAdmin;
     data['is_guild_master'] = this.isGuildMaster;
-    data['guild_name'] = this.guildName;
+    data['guild_name'] = this.guildNameGuildMaster;
     data['is_adventure'] = this.isAdventure;
     data['admin_name'] = this.adminName;
     data['team_name'] = this.teamName;

@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:job_adventure/Screens/QuestPage.dart';
 import 'package:loading/indicator/ball_spin_fade_loader_indicator.dart';
 import 'package:loading/loading.dart';
 
@@ -7,18 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:job_adventure/models/user.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-class ArgumentGoalPage{
-  User user;
-  Quest quest;
-  ArgumentGoalPage({this.user, this.quest});
-}
-
-class QuestPage extends StatefulWidget {
+class QuestListReduced extends StatefulWidget {
   @override
-  _QuestPageState createState() => _QuestPageState();
+  _QuestListReducedState createState() => _QuestListReducedState();
 }
 
-class _QuestPageState extends State<QuestPage> {
+class _QuestListReducedState extends State<QuestListReduced> {
 
   @override
   Widget build(BuildContext context) {
@@ -45,91 +39,93 @@ class _QuestPageState extends State<QuestPage> {
                     itemCount: listquests.length,
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index){
-                      double percentualdone = listquests[index].percentualDone();
-                      var listqueststyle;
-                      if(percentualdone==1.0){
-                        listqueststyle = TextStyle(color: Colors.green, fontSize: 17.0, fontWeight: FontWeight.bold);
-                      }
-                      else{
-                        listqueststyle = TextStyle(color: Colors.black, fontSize: 17.0, fontWeight: FontWeight.bold);
-                      }
-                      return Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-                      child: Card(
-                          elevation: 5.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0.0),
-                          ),
-                          child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Container(
-                                          width: 55.0,
-                                          height: 55.0,
-                                          child: CircleAvatar(
-                                              backgroundColor: Color.fromRGBO(255, 211, 109, 0.4),
-                                              foregroundColor: Color.fromRGBO(255, 211, 109, 0.4),
-                                              backgroundImage: AssetImage(listquests[index].imagePath())
-                                          )
-                                      ),
-                                      SizedBox(width: 5.0),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Container(
-                                            width: c_width,
-                                            child: Column(
-                                              children: <Widget>[
-                                                Align(
-                                                    alignment: Alignment.centerLeft,
-                                                    child: Text(removeQuestTitleTrelloPresets(listquests[index].name), style: listqueststyle)
-                                                )
-                                              ],
+                      if(index < 3){
+                        double percentualdone = listquests[index].percentualDone();
+                        var listqueststyle;
+                        if(percentualdone==1.0){
+                          listqueststyle = TextStyle(color: Colors.green, fontSize: 17.0, fontWeight: FontWeight.bold);
+                        }
+                        else{
+                          listqueststyle = TextStyle(color: Colors.black, fontSize: 17.0, fontWeight: FontWeight.bold);
+                        }
+                        return Container(
+                        width: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                        child: Card(
+                            elevation: 5.0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(0.0),
+                            ),
+                            child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Container(
+                                            width: 55.0,
+                                            height: 55.0,
+                                            child: CircleAvatar(
+                                                backgroundColor: Color.fromRGBO(255, 211, 109, 0.4),
+                                                foregroundColor: Color.fromRGBO(255, 211, 109, 0.4),
+                                                backgroundImage: AssetImage(listquests[index].imagePath())
+                                            )
+                                        ),
+                                        SizedBox(width: 5.0),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Container(
+                                              width: c_width,
+                                              child: Column(
+                                                children: <Widget>[
+                                                  Align(
+                                                      alignment: Alignment.centerLeft,
+                                                      child: Text(removeQuestTitleTrelloPresets(listquests[index].name), style: listqueststyle)
+                                                  )
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          LinearPercentIndicator(
-                                            width: 140.0,
-                                            lineHeight: 14.0,
-                                            percent: percentualdone,
-                                            backgroundColor: Colors.black,
-                                            progressColor: Colors.green,
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                  Container(
-                                    alignment: Alignment.center,
-                                    padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-                                    child: FlatButton(
-                                      onPressed: (){
-                                        Navigator.pushNamed(
-                                          context,
-                                          ExtractArgumentsScreen.routeName,
-                                          arguments: new ArgumentGoalPage(user: user, quest: listquests[index])
-                                        );
-                                      },
-                                      color: Colors.amberAccent,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20.0),
-                                      ),
-                                      child: Text("Details", style: TextStyle(color: Colors.white))
+                                            LinearPercentIndicator(
+                                              width: 140.0,
+                                              lineHeight: 14.0,
+                                              percent: percentualdone,
+                                              backgroundColor: Colors.black,
+                                              progressColor: Colors.green,
+                                            ),
+                                          ],
+                                        )
+                                      ],
                                     ),
-                                  ),
-                                  //Container(),
-                                ],
-                              )
-                          )
-                        ),
-                      );
+                                    Container(
+                                      alignment: Alignment.center,
+                                      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                                      child: FlatButton(
+                                        onPressed: (){
+                                          Navigator.pushNamed(
+                                            context,
+                                            ExtractArgumentsScreen.routeName,
+                                            arguments: new ArgumentGoalPage(user: user, quest: listquests[index])
+                                          );
+                                        },
+                                        color: Colors.amberAccent,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20.0),
+                                        ),
+                                        child: Text("Details", style: TextStyle(color: Colors.white))
+                                      ),
+                                    ),
+                                    //Container(),
+                                  ],
+                                )
+                            )
+                          ),
+                        );
+                      }
                     },
                   )
               );
@@ -151,12 +147,6 @@ class ExtractArgumentsScreen extends StatefulWidget {
 }
 
 class _ExtractArgumentsScreenState extends State<ExtractArgumentsScreen> {
-  int currentTask;
-  CounterGoalTimer relogioAtual;
-  _ExtractArgumentsScreenState(){
-    currentTask = -1;
-  }
-
   @override
   Widget build(BuildContext context) {
     final ArgumentGoalPage args = ModalRoute.of(context).settings.arguments;
@@ -242,7 +232,6 @@ class _ExtractArgumentsScreenState extends State<ExtractArgumentsScreen> {
               itemCount: quest.goal.length,
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index){
-                var iconclock;
                 var color = Colors.white;
                 var text_style;
                 var icon;
@@ -253,12 +242,6 @@ class _ExtractArgumentsScreenState extends State<ExtractArgumentsScreen> {
                 else {
                   text_style = TextStyle(color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold);
                   icon = Icon(Icons.check_circle, color: Colors.orange, size: 32.0,);
-                }
-                if(currentTask==index){
-                  iconclock = Icon(Icons.timer, color: Colors.green, size: 20.0);
-                }
-                else{
-                  iconclock = Icon(Icons.timer, color: Colors.red, size: 20.0);
                 }
                 double c_width = MediaQuery.of(context).size.width*0.6;
                 return Container(
@@ -307,35 +290,7 @@ class _ExtractArgumentsScreenState extends State<ExtractArgumentsScreen> {
                                           Padding(padding: EdgeInsets.all(5.0)),
                                           Center(child: Icon(Icons.adjust, size: 10.0,)),
                                           Padding(padding: EdgeInsets.all(0.5)),
-                                          Text("XP: "+quest.goalXp[index].toString()),
-                                          IconButton(
-                                            icon: iconclock,
-                                            onPressed: (){
-                                              if(quest.goalStats[index]==false){
-                                                if(currentTask==-1){
-                                                  setState(() {
-                                                    currentTask = index;
-                                                    relogioAtual = new CounterGoalTimer(arqname: quest.goalID[index]);
-                                                    relogioAtual.getPreviousTimer();
-                                                  });
-                                                }
-                                                else if(index==currentTask){
-                                                  relogioAtual.saveTime();
-                                                  setState(() {
-                                                    currentTask = -1;
-                                                  });
-                                                }
-                                                else{
-                                                  relogioAtual.saveTime();
-                                                  setState(() {
-                                                    currentTask = index;
-                                                    relogioAtual = new CounterGoalTimer(arqname: quest.goalID[index]);
-                                                    relogioAtual.getPreviousTimer();
-                                                  });
-                                                }
-                                              }
-                                            },
-                                          )
+                                          Text("XP: "+quest.goalXp[index].toString())
                                         ],
                                       )
                                     ]
@@ -345,38 +300,14 @@ class _ExtractArgumentsScreenState extends State<ExtractArgumentsScreen> {
                                   icon: icon,
                                   onPressed: (){
                                     setState(() {
-                                      if(quest.goalStats[index]==false){
-                                        if(currentTask==index){
-                                          saveGoalTimerDatabaseAndStats(quest, index, relogioAtual.getTime(), true);
-                                          relogioAtual.saveTime();
-                                        }
-                                        else{
-                                          var savedTime = new CounterGoalTimer(arqname: quest.goalID[index]);
-                                          savedTime.getPreviousTimer().then((str){
-                                            saveGoalTimerDatabaseAndStats(quest, index, savedTime.initial_timer, true);
-                                          });
-                                        }
-                                      }
-                                      else{
-                                        if(currentTask==index){
-                                          saveGoalTimerDatabaseAndStats(quest, index, relogioAtual.getTime(), false);
-                                          relogioAtual.saveTime();
-                                        }
-                                        else{
-                                          var savedTime = new CounterGoalTimer(arqname: quest.goalID[index]);
-                                          savedTime.getPreviousTimer().then((str){
-                                            saveGoalTimerDatabaseAndStats(quest, index, savedTime.initial_timer, false);
-                                          });
-                                        }
-                                      }
                                       if (quest.goalStats[index] == true) {
                                         quest.goalStats[index] = false;
+                                        quest.save();
                                         changeQuestGoal(user, quest, index, false);
                                       }
                                       else {
-                                        if(currentTask==index)
-                                          currentTask = -1;
                                         quest.goalStats[index] = true;
+                                        quest.save();
                                         changeQuestGoal(user, quest, index, true);
                                       }
                                     });
@@ -394,27 +325,4 @@ class _ExtractArgumentsScreenState extends State<ExtractArgumentsScreen> {
       )
     );
   }
-}
-
-void saveGoalTimerDatabaseAndStats(Quest quest, int goalIndex, int seconds, bool stats) async{
-  final ref = await Firestore.instance.collection('Quest').document(quest.id);
-  var questDatabase = await ref.get();
-  List<double> listHours;
-  List<bool> goalStats;
-
-  if(questDatabase.data['goal_stats']!=null)
-    goalStats = questDatabase.data['goal_stats'].cast<bool>();
-  else
-    goalStats = new List<bool>(quest.goal.length);
-
-  if(questDatabase.data['goal_done_hours']!=null)
-    listHours = questDatabase.data['goal_done_hours'].cast<double>();
-  else
-    listHours = new List<double>(quest.goal.length);
-
-  listHours[goalIndex] = (seconds/3600);
-  goalStats[goalIndex] = stats;
-  questDatabase.data['goal_done_hours'] = listHours;
-  questDatabase.data['goal_stats'] = goalStats;
-  await ref.setData(questDatabase.data);
 }
